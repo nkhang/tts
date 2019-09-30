@@ -1,6 +1,6 @@
 FROM node:slim
 
-WORKDIR /app/web/
+WORKDIR /app/authentication/
 
 ADD package.json .
 
