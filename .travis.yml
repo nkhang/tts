@@ -1,0 +1,12 @@
+language: node_js
+
+deploy:
+    provider: heroku
+    api_key:
+        secure: 639d27c1-10b6-4b51-b4ff-ecb7eac00878
+    app: wordspeech
+    on: master
+    run:
+        - "cd web/"
+        - "yarn install"
+        - "yarn start"
