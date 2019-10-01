@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+    web:
+        build:
+            context: ./web
+            dockerfile: Dockerfile.web
+        image: web:latest
+        ports:
+            - "3000:3000"
+    authentication:
+        build:
+            context: ./authentication
+            dockerfile: Dockerfile.authentication
+        image: authentication:latest
+        ports:
+            - "3001:3000"
