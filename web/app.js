@@ -9,6 +9,15 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+mongoose.connect('mongodb://mongo:27017/test', {
+    useNewUrlParser: true
+})
+
+const Cat = mongoose.model('Cat', { name: String });
+
+const kitty  = new Cat({name: 'team 4'})
+kitty.save().then(() => console.log('meow'))
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
