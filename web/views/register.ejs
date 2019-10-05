@@ -28,7 +28,7 @@
         </header>
         <div class="container login-form">
             <div class="form">
-                <form class="login-form">
+                <form class="login-form" onsubmit="return Validate()">
                     <img class="logo" src="img/register-logo.PNG" alt="logo" style="margin-top: -60px; margin-left: 50px">
                     <div class="row">
                         <div class="col-4 mt-2">Họ tên</div>
@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-4 mt-2">Email</div>
                         <div class="col-8">
-                            <input type="text" placeholder="Nhập email"/>
+                            <input type="email" placeholder="Nhập email" required/>
                         </div>
                     </div>
                     <div class="row">
@@ -51,13 +51,13 @@
                     <div class="row">
                         <div class="col-4 mt-2">Mật khẩu</div>
                         <div class="col-8">
-                            <input type="password" placeholder="Nhập mật khẩu"/>
+                            <input type="password" id="pass1" required placeholder="Nhập mật khẩu"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4 mt-2">Xác nhận mật khẩu</div>
                         <div class="col-8">
-                            <input type="password" placeholder="Xác nhận mật khẩu"/>
+                            <input type="password" id="pass2" required placeholder="Xác nhận mật khẩu"/>
                         </div>
                     </div>
                     
@@ -68,7 +68,7 @@
                     <div class="row mt-4">
                         <div class="col-sm-12">
                             <div class="text-center">
-                                <button class="btn btn-primary mt-2" id="singlebutton" style="width: 50%">Đăng ký</button>
+                                <button class="btn btn-primary mt-2" id="singlebutton" style="width: 50%" type="submit">Đăng ký</button>
                             </div>
                         </div>
                     </div>
@@ -97,4 +97,24 @@
             </div>
         </footer>
   </body>
+  <script type="text/javascript">
+  function Validate() {
+    var pass1 = document.getElementById("pass1").value;
+    var pass2 = document.getElementById("pass2").value;
+    var ok = true;
+    if(pass1.length) {
+        alert("Mật khẩu phải lớn hơn 6 kí tự");
+        return;
+    }
+    if(!pass1 || !pass2){
+       alert("Nhập lại mật khẩu");
+       return;
+    }
+    else if (pass1 != pass2){ 
+        alert("Mật khẩu không trùng khớp");
+        ok = false;
+    }
+    return ok;
+  }
+  </script>
 </html>
