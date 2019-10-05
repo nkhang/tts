@@ -28,10 +28,10 @@
         </header>
         <div class="container login-form">
             <div class="form">
-                <form class="login-form">
+                <form class="login-form" onsubmit="return Validate()">
                     <img class="logo" src="img/login-logo.PNG" alt="logo" style="margin-top: -100px">
-                    <input placeholder="Email hoặc số điện thoại"/>
-                    <input placeholder="Mật khẩu"/>
+                    <input type="email" required placeholder="Email hoặc số điện thoại"/>
+                    <input type="password" id="pass1" placeholder ="Mật khẩu" required/>
                     <div class="row">
                         <div class="col-6">
                             <a href="#">Quên mật khẩu</a>
@@ -66,4 +66,15 @@
             </div>
         </footer>
   </body>
+  <script type="text/javascript">
+    function Validate() {
+      var pass1 = document.getElementById("pass1").value;
+      var ok = true;
+      if(pass1.length) {
+          alert("Mật khẩu phải lớn hơn 6 kí tự");
+          return;
+      }
+      return ok;
+    }
+    </script>
 </html>
