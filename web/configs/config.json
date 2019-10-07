@@ -1,0 +1,12 @@
+{
+    "development": {
+        "auth": {
+            "host": "authentication",
+            "port": "3001",
+            "ssl": false
+        }
+    },
+    "production": {
+        "auth_host": "http://authentication:3001"
+    }
+}
