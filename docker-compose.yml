@@ -19,4 +19,4 @@ services:
             dockerfile: Dockerfile.authentication
         image: authentication:latest
         ports:
-            - "3001:3000"
+            - "3001:3001"

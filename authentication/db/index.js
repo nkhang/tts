@@ -5,7 +5,7 @@ const connection = mongoose.connect(mlabURI,{ useNewUrlParser: true, useUnifiedT
 	if(error){
 		console.log("Error " + error);
 	}else{
-		console.log("Connected successfully to server nhut")
+		console.log("Connected successfully to mongodb server")
 	}
 });
 

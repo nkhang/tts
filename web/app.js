@@ -3,11 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mongoose = require('mongoose')
-
+var config = require('./configs/config.js')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+
+global.config = config
 var app = express();
 
 mongoose.connect('mongodb://mongo:27017/test', {

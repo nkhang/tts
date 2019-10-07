@@ -1,9 +1,11 @@
 var express = require('express');
-var axios = require('axios')
 var router = express.Router();
+var authPath = require('../configs/authConfig')
 
 router.get('/login', function(req, res, next) {
-  res.render('login');
+  var authHost = authPath()
+  console.log(authHost)
+  res.render('login', {authPath: authHost});
 });
 
 router.get('/register', function(req, res, next) {
