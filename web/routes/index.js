@@ -17,5 +17,15 @@ router.get('/', function(req, res, next) {
   res.render('main');
 });
 
+router.get('/paid', function(req, res, next) {
+  res.render('step1', {step: 1});
+});
+router.get('/paid/choose-method', function(req, res, next) {
+  res.render('step2', {step: 1});
+});
+router.get('/paid/otp', function(req, res, next) {
+  res.render('step3', {step: 1});
+});
+
 
 module.exports = router;
