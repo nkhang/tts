@@ -28,7 +28,7 @@
         </header>
         <div class="container login-form">
             <div class="form">
-                <form class="login-form" method="POST" action="<%= authPath %>/users/login" >
+                <form class="login-form" method="POST" action="<%= authPath %>/users/login"  onsubmit="return Validate()">
                     <img class="logo" src="img/login-logo.PNG" alt="logo" style="margin-top: -100px">
                     <input type="email" required placeholder="Email hoặc số điện thoại"/>
                     <input type="password" id="pass1" placeholder ="Mật khẩu" required/>
@@ -72,7 +72,7 @@
       var ok = true;
       if(pass1.length < 6) {
           alert("Mật khẩu phải lớn hơn 6 kí tự");
-          return;
+          return false;
       }
       return ok;
     }

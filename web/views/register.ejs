@@ -102,13 +102,13 @@
     var pass1 = document.getElementById("pass1").value;
     var pass2 = document.getElementById("pass2").value;
     var ok = true;
-    if(pass1.length) {
+    if(pass1.length <= 6) {
         alert("Mật khẩu phải lớn hơn 6 kí tự");
-        return;
+        return false;
     }
     if(!pass1 || !pass2){
        alert("Nhập lại mật khẩu");
-       return;
+       return false;
     }
     else if (pass1 != pass2){ 
         alert("Mật khẩu không trùng khớp");
