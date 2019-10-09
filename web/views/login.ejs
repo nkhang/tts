@@ -70,7 +70,7 @@
     function Validate() {
       var pass1 = document.getElementById("pass1").value;
       var ok = true;
-      if(pass1.length) {
+      if(pass1.length < 6) {
           alert("Mật khẩu phải lớn hơn 6 kí tự");
           return;
       }
