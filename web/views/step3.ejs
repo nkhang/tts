@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Login</title>
-    <link rel='stylesheet' href='/stylesheets/login.css' />
+    <title>Text to speech</title>
+    <link rel='stylesheet' href='/stylesheets/paid-step-2.css' />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
@@ -10,7 +10,7 @@
             <div class="container">
             <div class="row">
                 <div class="col-6">
-                    <img class="logo" src="img/login-logo.PNG" alt="logo">
+                    <img class="logo" src="/img/login-logo.PNG" alt="logo">
                 </div>
                 <div class="col-6">
                         <nav>
@@ -18,7 +18,7 @@
                                     <li><a href="/" style="color:white">Trang chủ</a></li>
                                     <li><a href="#" style="color:white">Giới thiệu</a></li>
                                     <li><a href="#" style="color:white">Bảng giá</a></li>
-                                    <li><a href="/login" style="color:black; background-color: white">Đăng nhập</a></li>
+                                    <li><a href="/login" style="color:white">Đăng nhập</a></li>
                                     <li><a href="/register" style="color:white">Đăng ký</a></li>
                             </ul>
                     </nav>
@@ -26,23 +26,33 @@
             </div>
             </div>
         </header>
-        <div class="container login-form">
-            <div class="form">
-                <form class="login-form" method="POST" action="<%= authPath %>/users/login"  onsubmit="return Validate()">
-                    <img class="logo" src="img/login-logo.PNG" alt="logo" style="margin-top: -100px">
-                    <input type="email" required placeholder="Email hoặc số điện thoại"/>
-                    <input type="password" id="pass1" placeholder ="Mật khẩu" required/>
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="#">Quên mật khẩu</a>
-                        </div>
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-primary"> Đăng nhập </button>
+        <div class="container">
+            <div class="row mt-5">
+                <h4 style="color: royalblue; margin-right: 10px">Bước 3: </h4>
+                <h4>Hoàn tất thanh toán</h4>
+            </div>
+            <div class="row mt-3">
+                <h3>3. Nhập mã xác thực</h3>
+            </div>
+
+
+            <div class="row mt-3">
+                <h5>Vui lòng nhập mã xác thực đã được gửi cho email của bạn để hoàn tất</h5>
+            </div>
+
+            <div class="form-check mt-3">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Nhập mã xác thực của bạn tại đây">
                         </div>
                     </div>
-                    Bạn chưa có tài khoản? <a href="#">Đăng ký</a>
                 </form>
+            <div class="row mt-1 mb-3">
+                <div class="col-sm-8"></div>
+                <div class="col-sm-4"><a href="/paid/otp" class="btn btn-primary pull-right">Tiếp tục</a></div>
             </div>
+        </div>
         </div>
 
         <footer id="sticky-footer" class="py-4 bg-primary text-white">
@@ -66,15 +76,4 @@
             </div>
         </footer>
   </body>
-  <script type="text/javascript">
-    function Validate() {
-      var pass1 = document.getElementById("pass1").value;
-      var ok = true;
-      if(pass1.length < 6) {
-          alert("Mật khẩu phải lớn hơn 6 kí tự");
-          return false;
-      }
-      return ok;
-    }
-    </script>
 </html>
