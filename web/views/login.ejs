@@ -30,8 +30,8 @@
             <div class="form">
                 <form class="login-form" method="POST" action="<%= authPath %>/users/login"  onsubmit="return Validate()">
                     <img class="logo" src="img/login-logo.PNG" alt="logo" style="margin-top: -100px">
-                    <input type="email" required placeholder="Email hoặc số điện thoại"/>
-                    <input type="password" id="pass1" placeholder ="Mật khẩu" required/>
+                    <input type="email" name="email" required placeholder="Email hoặc số điện thoại"/>
+                    <input type="password" name="password" id="pass1" placeholder ="Mật khẩu" required/>
                     <div class="row">
                         <div class="col-6">
                             <a href="#">Quên mật khẩu</a>
