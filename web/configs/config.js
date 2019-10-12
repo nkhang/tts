@@ -2,12 +2,12 @@ var dotenv = require('dotenv')
 const jsonConfig = require('./config.json')
 let config
 dotenv.config()
-console.log(process.env.NODE_ENV)
-if (process.env.NODE_ENV == 'development') {
-  config = jsonConfig.development
+let env = process.env.NODE_ENV
+if (env == 'production') {
+  config = jsonConfig.production
 } else {
-  config = jsonConfig   .production
+  config = jsonConfig.development
 }
-console.log(config)
+global.config = config 
 
 module.exports = config
