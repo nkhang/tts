@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var authPath = require('../configs/authConfig')
+var WorkerPath = require('../configs/authConfig')
 
 router.get('/login', function(req, res, next) {
-  var authHost = authPath()
-  console.log(authHost)
-  res.render('login', {authPath: authHost});
+  var workerPath = WorkerPath()
+  console.log(workerPath)
+  res.render('login', {authPath: workerPath});
 });
 
 router.get('/register', function(req, res, next) {

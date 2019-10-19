@@ -4,9 +4,11 @@ let config
 dotenv.config()
 let env = process.env.NODE_ENV
 if (env == 'production') {
-  config = jsonConfig.production
+    console.log('Running under production configuration')
+    config = jsonConfig.production
 } else {
-  config = jsonConfig.development
+    console.log('Running under development configuration')
+    config = jsonConfig.development
 }
 global.config = config 
 
