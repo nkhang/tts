@@ -4,12 +4,12 @@ var WorkerPath = require('../configs/authConfig')
 
 router.get('/login', function(req, res, next) {
   var workerPath = WorkerPath()
-  console.log(workerPath)
   res.render('login', {authPath: workerPath});
 });
 
 router.get('/register', function(req, res, next) {
-  res.render('register');
+  var workerPath = WorkerPath()
+  res.render('register', {authPath: workerPath});
 });
 
 router.get('/', function(req, res, next) {
