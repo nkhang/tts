@@ -9,6 +9,7 @@ def getDocText(filename):
     for para in doc.paragraphs:
         fullText += para.text
     return fullText
+    
 def textToSpeech(filenameInput, filenameOutput, language, prefixFilename):
     encoding = 'ansi'
     if language == "vi":
