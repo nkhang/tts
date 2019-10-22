@@ -5,7 +5,8 @@ const bcrypt = require('bcryptjs');
 
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
-
+const validateLogoutInput = require('../validation/logout');
+const tokenLength = 15
 //register
 // @route   POST /users/register
 router.post('/register', (req, res) => {
@@ -18,14 +19,16 @@ router.post('/register', (req, res) => {
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      errors.email = 'Email already exists';
+      errors.message = 'Email already exists';
+      errors.code = 1010;
       return res.status(400).json(errors);
     } else {
       const newUser = new User({
         fullname: req.body.fullname,
         email: req.body.email,
         password: req.body.password,
-        numberPhone: req.body.numberPhone
+        numberPhone: req.body.numberPhone,
+        token : makeid(tokenLength)
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -42,6 +45,15 @@ router.post('/register', (req, res) => {
   });
 });
 
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 
 // @route   POST /users/login
 router.post('/login', (req, res) => {
@@ -59,7 +71,8 @@ router.post('/login', (req, res) => {
   User.findOne({ email }).then(user => {
     // Check for user
     if (!user) {
-      errors.email = 'User not found';
+      errors.message = 'User not found';
+      errors.code = 1011;
       return res.status(404).json(errors);
     }
 
@@ -67,29 +80,81 @@ router.post('/login', (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // User Matched
-        const payload = { id: user.id, fullname: user.fullname, email: user.email, numberPhone: user.numberPhone };
-
-        res.json({
-            success: true,
-            user: payload
-        });
-        // // Sign Token
-        // jwt.sign(
-        //   payload,
-        //   keys.secretOrKey,
-        //   { expiresIn: 3600 },
-        //   (err, token) => {
-        //     res.json({
-        //       success: true,
-        //       token: 'Bearer ' + token
-        //     });
-        //   }
-        // );
+        user.token = makeid(tokenLength);
+        user.save().then(user => {
+            const dataUser = { id: user.id, fullname: user.fullname, email: user.email, numberPhone: user.numberPhone, token: user.token };
+  
+            res.json({
+                success: true,
+                user: dataUser
+            });
+        }).catch(err => console.log(err));
       } else {
-        errors.password = 'Password incorrect';
+        errors.message = 'Password incorrect';
+        errors.code = 1012;
         return res.status(400).json(errors);
       }
     });
+  });
+});
+
+// @route   POST /users/logout
+router.post('/logout', (req, res) => {
+  const { errors, isValid } = validateLogoutInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const id = req.body.id;
+
+  // Find user by id
+  User.findById(id).exec().then(user => {
+    // Check for user
+    if (!user) {
+      errors.message = 'User not found';
+      errors.code = 1011;
+      return res.status(404).json(errors);
+    }
+
+    user.token = " ";
+    user.save().then(user => {
+        res.json({
+            success: true,
+            user: {}
+        });
+    }).catch(err => console.log(err));
+  });
+});
+
+
+// @route   POST /users/logout
+router.post('/checkToken', (req, res) => {
+  const { errors, isValid } = validateLogoutInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const id = req.body.id;
+  const token = req.body.token;
+
+  // Find user by id
+  User.findById(id).exec().then(user => {
+    // Check for user
+    if (!user) {
+      errors.message = 'User not found';
+      errors.code = 1011;
+      return res.status(404).json(errors);
+    }
+
+    if (user.token === token) {
+      res.json({ result: true });
+    } else {
+      res.json({ result: false });
+    }
   });
 });
 
