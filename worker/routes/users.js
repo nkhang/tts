@@ -14,14 +14,14 @@ router.post('/register', (req, res) => {
   
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json({data: {}, error: errors});
   }
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       errors.message = 'Email already exists';
       errors.code = 1010;
-      return res.status(400).json(errors);
+      return res.status(400).json({data: {}, error: errors});
     } else {
       const newUser = new User({
         fullname: req.body.fullname,
@@ -37,7 +37,7 @@ router.post('/register', (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json(user))
+            .then(user => res.json({data: user, error: {}}))
             .catch(err => console.log(err));
         });
       });
@@ -61,7 +61,7 @@ router.post('/login', (req, res) => {
 
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json({data: {}, error: errors});
   }
 
   const email = req.body.email;
@@ -73,7 +73,7 @@ router.post('/login', (req, res) => {
     if (!user) {
       errors.message = 'User not found';
       errors.code = 1011;
-      return res.status(404).json(errors);
+      return res.status(400).json({data: {}, error: errors});
     }
 
     // Check Password
@@ -85,14 +85,14 @@ router.post('/login', (req, res) => {
             const dataUser = { id: user.id, fullname: user.fullname, email: user.email, numberPhone: user.numberPhone, token: user.token };
   
             res.json({
-                success: true,
-                user: dataUser
+                data: dataUser,
+                error: {}
             });
         }).catch(err => console.log(err));
       } else {
         errors.message = 'Password incorrect';
         errors.code = 1012;
-        return res.status(400).json(errors);
+        return res.status(400).json({data: {}, error: errors});
       }
     });
   });
@@ -104,7 +104,7 @@ router.post('/logout', (req, res) => {
 
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json({data: {}, error: errors});
   }
 
   const id = req.body.id;
@@ -115,14 +115,14 @@ router.post('/logout', (req, res) => {
     if (!user) {
       errors.message = 'User not found';
       errors.code = 1011;
-      return res.status(404).json(errors);
+      return res.status(400).json({data: {}, error: errors});
     }
 
     user.token = " ";
     user.save().then(user => {
         res.json({
-            success: true,
-            user: {}
+            user: {},
+            error: {}
         });
     }).catch(err => console.log(err));
   });
@@ -135,7 +135,7 @@ router.post('/checkToken', (req, res) => {
 
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json({data: {}, error: errors});
   }
 
   const id = req.body.id;
@@ -147,13 +147,13 @@ router.post('/checkToken', (req, res) => {
     if (!user) {
       errors.message = 'User not found';
       errors.code = 1011;
-      return res.status(404).json(errors);
+      return res.status(400).json({data: {}, error: errors});
     }
 
     if (user.token === token) {
-      res.json({ result: true });
+      res.json({ data: { result: true }, error: {}});
     } else {
-      res.json({ result: false });
+      res.json({ data: { result: false }, error: {}});
     }
   });
 });
@@ -163,27 +163,27 @@ router.post("/", async (req, res) => {
   try {
       var user = new User(req.body);
       var result = await user.save();
-      res.send(result);
+      res.send({data: result, error: {}});
   } catch (error) {
-      res.status(500).send(error);
+      res.status(500).send({data: {}, error: error});
   }
 });
 
 router.get("/", async (req, res) => {
   try {
       var result = await User.find().exec();
-      res.send(result);
+      res.send({data: result, error: {}});
   } catch (error) {
-      res.status(500).send(error);
+      res.status(500).send({data: {}, error: error});
   }
 });
 
 router.get("/:id", async (req, res) => {
   try {
       var user = await User.findById(req.params.id).exec();
-      res.send(user);
+      res.send({data: result, error: {}});
   } catch (error) {
-      res.status(500).send(error);
+      res.status(500).send({data: {}, error: error});
   }
 });
 
@@ -192,18 +192,18 @@ router.put("/:id", async (req, res) => {
       var user = await User.findById(req.params.id).exec();
       user.set(req.body);
       var result = await user.save();
-      res.send(result);
+      res.send({data: result, error: {}});
   } catch (error) {
-      res.status(500).send(error);
+      res.status(500).send({data: {}, error: error});
   }
 });
 
 router.delete("/:id", async (req, res) => {
   try {
       var result = await User.deleteOne({ _id: req.params.id }).exec();
-      res.send(result);
+      res.send({data: result, error: {}});
   } catch (error) {
-      res.status(500).send(error);
+      res.status(500).send({data: {}, error: error});
   }
 });
 
