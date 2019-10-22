@@ -1,7 +1,7 @@
 build:
     docker:
         web: web/Dockerfile.web
-        authentication: authentication/Dockerfile.authentication
+        authentication: worker/Dockerfile.worker
 run:
     web: yarn start
     authentication: yarn start

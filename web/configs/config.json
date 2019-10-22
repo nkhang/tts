@@ -1,13 +1,13 @@
 {
     "development": {
-        "auth": {
+        "worker": {
             "host": "localhost",
             "port": "3001",
             "ssl": false
         }
     },
     "production": {
-        "auth": {
+        "worker": {
             "host": "authentication",
             "port": "3001",
             "ssl": false
