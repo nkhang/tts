@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const querystring = require('querystring');    
 var WorkerPath = require('../configs/authConfig')
 
 router.get('/login', function(req, res, next) {
@@ -13,7 +14,13 @@ router.get('/register', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  res.render('main');
+  var workerPath = WorkerPath()  
+  const user = (JSON.parse(JSON.stringify(req.query)));
+  res.render('main', {authPath: workerPath, user: user.fullname});
+});
+
+router.get('/logout', function(req, res, next) {
+  res.redirect('/');
 });
 
 router.get('/paid', function(req, res, next) {

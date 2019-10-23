@@ -14,12 +14,18 @@
                 </div>
                 <div class="col-6">
                         <nav>
-                            <ul class="nav__links">
+                            <ul class="nav__links ml-1">
+                                <% if(!user){ %>
                                     <li><a href="/" style="color:white">Trang chủ</a></li>
                                     <li><a href="#" style="color:white">Giới thiệu</a></li>
                                     <li><a href="#" style="color:white">Bảng giá</a></li>
                                     <li><a href="/login" style="color:white">Đăng nhập</a></li>
                                     <li><a href="/register" style="color:white">Đăng ký</a></li>
+                                <% } %>
+                                <% if(user){ %>
+                                    <li><p style="color:white;">Xin chào <%=user%></p></li>
+                                    <li><a href="/logout" style="color:white ">Đăng xuất</a></li>
+                                <% } %>
                             </ul>
                     </nav>
                 </div>

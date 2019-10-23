@@ -3,7 +3,9 @@
   <head>
     <title>Login</title>
     <link rel='stylesheet' href='/stylesheets/login.css' />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet', href='/lib/css/vex.css'>
+    <link rel='stylesheet', href='/lib/css/vex-theme-default.css'>
+     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
         <header>
@@ -28,7 +30,7 @@
         </header>
         <div class="container login-form">
             <div class="form">
-                <form class="login-form" method="POST" action="<%= authPath %>/users/login"  onsubmit="return Validate()">
+                <form class="login-form" id="loginForm" method="POST" action="<%= authPath %>/users/login"  onsubmit="return Validate()">
                     <img class="logo" src="img/login-logo.PNG" alt="logo" style="margin-top: -100px">
                     <input type="email" name="email" required placeholder="Email hoặc số điện thoại"/>
                     <input type="password" name="password" id="pass1" placeholder ="Mật khẩu" required/>
@@ -77,4 +79,7 @@
       return ok;
     }
     </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="/lib/js/vex.combined.min.js"></script>
+    <script src="/js/login.js"></script>
 </html>
