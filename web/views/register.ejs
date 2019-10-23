@@ -3,6 +3,8 @@
   <head>
     <title>Register</title>
     <link rel='stylesheet' href='/stylesheets/login.css' />
+    <link rel='stylesheet', href='/lib/css/vex.css'>
+    <link rel='stylesheet', href='/lib/css/vex-theme-default.css'>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
@@ -28,30 +30,30 @@
         </header>
         <div class="container login-form">
             <div class="form">
-                <form class="login-form" method="POST" action="<%= authPath %>/users/register" onsubmit="return Validate()">
+                <form class="login-form" id="registerForm" method="POST" action="<%= authPath %>/users/register" onsubmit="return Validate()">
                     <img class="logo" src="img/register-logo.PNG" alt="logo" style="margin-top: -60px; margin-left: 50px">
                     <div class="row">
                         <div class="col-4 mt-2">Họ tên</div>
                         <div class="col-8">
-                            <input type="text" placeholder="Nhập họ tên"/>
+                            <input type="text" name="fullname" placeholder="Nhập họ tên"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4 mt-2">Email</div>
                         <div class="col-8">
-                            <input type="email" placeholder="Nhập email" required/>
+                            <input type="email" name="email" placeholder="Nhập email" required/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4 mt-2">Số điện thoại</div>
                         <div class="col-8">
-                            <input type="text" placeholder="Nhập số điện thoại"/>
+                            <input type="text" name="numberPhone" placeholder="Nhập số điện thoại"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4 mt-2">Mật khẩu</div>
                         <div class="col-8">
-                            <input type="password" id="pass1" required placeholder="Nhập mật khẩu"/>
+                            <input type="password" id="pass1" name="password" required placeholder="Nhập mật khẩu"/>
                         </div>
                     </div>
                     <div class="row">
@@ -117,4 +119,8 @@
     return ok;
   }
   </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script src="/lib/js/vex.combined.min.js"></script>
+  <script src="/js/register.js"></script>
+
 </html>
