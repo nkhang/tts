@@ -1,15 +1,17 @@
 vex.defaultOptions.className = 'vex-theme-default';
 $(document).ready(() => {
   $("#registerForm").on('submit', function(e) {
+    console.log("enter register handler");
     e.preventDefault();
     var form = $(this);
     var url = form.attr('action');
     const data = JSON.stringify(form);
-    
+    console.log(url);
     $.ajax({
       type: 'POST',
+      crossDomain: true,
       url: url,
-      data: $('form').serialize(),
+      data: form.serializeArray(),
       success: function(data) {
         window.alert('Đăng ký thành công, bạn sẽ được chuyển hướng sang trang đăng nhập !');
         window.location.replace('/login');
