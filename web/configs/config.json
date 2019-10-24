@@ -8,7 +8,7 @@
     },
     "production": {
         "worker": {
-            "host": "authentication",
+            "host": "worker",
             "port": "3001",
             "ssl": false
         }
