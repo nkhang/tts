@@ -1,7 +1,5 @@
 build:
     docker:
         web: web/Dockerfile.web
-        worker: worker/Dockerfile.worker
 run:
     web: yarn start
-    worker: yarn start

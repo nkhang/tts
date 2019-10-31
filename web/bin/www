@@ -5,17 +5,14 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('final-project:server');
+var debug = require('debug')('authentication:server');
 var http = require('http');
-var config = require('../configs/config.js')
-require('dotenv').config()
 
-global.config = config
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 /**
@@ -90,4 +87,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log(`Listening on port ${port}`)
 }

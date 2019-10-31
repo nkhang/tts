@@ -22,15 +22,15 @@
                                     <li><a href="#" style="color:white">Bảng giá</a></li>
                                     <li><a href="/login" style="color:black; background-color: white">Đăng nhập</a></li>
                                     <li><a href="/register" style="color:white">Đăng ký</a></li>
-                            </ul>
-                    </nav>
-                </div>
-            </div>
-            </div>
-        </header>
-        <div class="container login-form">
-            <div class="form">
-                <form class="login-form" id="loginForm" method="POST" action="<%= authPath %>/users/login"  onsubmit="return Validate()">
+                                    </ul>
+                                    </nav>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </header>
+                                    <div class="container login-form">
+                                        <div class="form">
+                                            <form class="login-form" id="loginForm" method="POST" action="/api/users/login" onsubmit="return Validate()">
                     <img class="logo" src="img/login-logo.PNG" alt="logo" style="margin-top: -100px">
                     <input type="email" name="email" required placeholder="Email hoặc số điện thoại"/>
                     <input type="password" name="password" id="pass1" placeholder ="Mật khẩu" required/>
@@ -42,7 +42,7 @@
                             <button type="submit" class="btn btn-primary"> Đăng nhập </button>
                         </div>
                     </div>
-                    Bạn chưa có tài khoản? <a href="#">Đăng ký</a>
+                    Bạn chưa có tài khoản? <a href="/register">Đăng ký</a>
                 </form>
             </div>
         </div>
@@ -81,5 +81,5 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="/lib/js/vex.combined.min.js"></script>
-    <script src="/js/login.js"></script>
+    <!-- <script src="/js/login.js"></script> -->
 </html>
