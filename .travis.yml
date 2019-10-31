@@ -3,6 +3,6 @@ language: node_js
 deploy:
     provider: heroku
     api_key:
-        secure: 639d27c1-10b6-4b51-b4ff-ecb7eac00878
+        secure: 56b9f837-2eb8-4903-802f-256a2b5dec05
     app: wordspeech
     on: master
