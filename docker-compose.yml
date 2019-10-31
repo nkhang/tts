@@ -7,10 +7,3 @@ services:
         image: web:latest
         ports:
             - "3000:3000"
-    worker:
-        build:
-            context: ./worker
-            dockerfile: Dockerfile.worker
-        image: worker:latest
-        ports:
-            - "3001:3001"
