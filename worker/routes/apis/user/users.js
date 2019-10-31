@@ -6,9 +6,7 @@ require("../../../db");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const validateRegisterInput = require("../../../validation/register");
-const validateLoginInput = require("../../../validation/login");
 const validateLogoutInput = require("../../../validation/logout");
-const tokenLength = 15;
 //register
 // @route   POST /users/register
 router.post("/register", (req, res) => {
@@ -44,7 +42,9 @@ router.post("/register", (req, res) => {
               console.log(user);
               res.json({
                 success: true,
-                email: user.email,
+                data: {
+                  email: user.email
+                },
                 error: {}
               });
             })
@@ -55,31 +55,37 @@ router.post("/register", (req, res) => {
   });
 });
 
-function makeid(length) {
-  var result = "";
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
 
 // @route   POST /users/login
-router.post(
-  "/login",
-  passport.authenticate("local", { session: false, failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/")
-    return;
-  }
-);
+router.post("/login", (req, res) => {
+  passport.authenticate(
+    "local",
+    { session: false, failureRedirect: "/login" },
+    (err, user) => {
+      if (user) {
+        jwt.sign({ user: user }, "StRoNGs3crE7", (err, token) => {
+          if (err) {
+            return res.redirect("/login");
+          }
+          console.log(token);
+          res.cookie("jwt", token, {
+            httpOnly: true,
+            sameSite: true
+            // signed: true,
+            // secure: true
+          });
+          console.log("set cookie successfully");
+          return res.redirect("/");
+        });
+      }
+    }
+  )(req, res);
+});
 
 // @route   POST /users/logout
 router.post("/logout", (req, res) => {
-   res.clearCookie("jwt")
-   res.redirect("/login")
+  res.clearCookie("jwt");
+  res.redirect("/login");
 });
 
 // @route   POST /users/logout
