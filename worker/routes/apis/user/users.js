@@ -73,83 +73,13 @@ router.post(
   (req, res) => {
     res.redirect("/")
     return;
-    // passport.authenticate("local", { session: false }, (err, user, info) => {
-    //   if (err) {
-    //     console.log(err);
-    //     return res.json({
-    //       success: false,
-    //       error: "error authenticating"
-    //     });
-    //   }
-
-    //   if (user) {
-    //     jwt.sign({ user: user }, "StRoNGs3crE7", (err, token) => {
-    //       if (err) {
-    //         return res.json({
-    //           success: false,
-    //           message: err
-    //         });
-    //       }
-    //       console.log(token);
-    //       res.cookie("jwt", token, {
-    //         httpOnly: true,
-    //         sameSite: true
-    //         // signed: true,
-    //         // secure: true
-    //       });
-    //       console.log("set cookie successfully");
-    //       return res.json({
-    //         success: true,
-    //         data: {
-    //           fullname: user.fullname,
-    //           email: user.email,
-    //           token: token
-    //         }
-    //       });
-    //     });
-    //   } else {
-    //     return res.json({
-    //       success: false,
-    //       message: info
-    //     });
-    //   }
-    // })(req, res);
   }
 );
 
 // @route   POST /users/logout
 router.post("/logout", (req, res) => {
-  const { errors, isValid } = validateLogoutInput(req.body);
-
-  // Check Validation
-  if (!isValid) {
-    return res.status(400).json({ data: {}, error: errors });
-  }
-
-  const id = req.body.id;
-
-  // Find user by id
-  User.findById(id)
-    .exec()
-    .then(user => {
-      // Check for user
-      if (!user) {
-        errors.message = "User not found";
-        errors.code = 1011;
-        return res.status(400).json({ data: {}, error: errors });
-      }
-
-      user.token = " ";
-      user
-        .save()
-        .then(user => {
-          res.json({
-            user: {},
-            error: {}
-          });
-        })
-        .catch(err => console.log(err));
-    });
+   res.clearCookie("jwt")
+   res.redirect("/login")
 });
 
 // @route   POST /users/logout
