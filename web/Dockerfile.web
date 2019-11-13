@@ -2,7 +2,7 @@ FROM node:slim
 
 ENV NODE_ENV=production 
 
-WORKDIR /app/authentication/
+WORKDIR /app/web/
 
 ADD package.json .
 
