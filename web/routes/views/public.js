@@ -20,6 +20,9 @@ router.get("/register", (req, res, next) => {
 
 router.get("/prices", (req, res, next) => {
   res.render("prices");
+  
+router.get("/forgotPassword", (req, res, next) => {
+  res.render("forgotpassword");
 });
 
 module.exports = router;
