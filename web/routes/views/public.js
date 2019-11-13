@@ -18,4 +18,7 @@ router.get("/register", (req, res, next) => {
   res.render("register");
 });
 
+router.get("/prices", (req, res, next) => {
+  res.render("prices");
+});
 module.exports = router;
