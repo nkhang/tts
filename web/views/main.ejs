@@ -1,135 +1,74 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Text to speech</title>
-    <link rel="stylesheet" href="/stylesheets/main.css" />
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <header>
-      <div class="container">
-        <div class="row">
-          <div class="col-6">
-            <img class="logo" src="img/login-logo.PNG" alt="logo" />
-          </div>
-          <div class="col-6">
-            <nav>
-              <ul class="nav__links ml-1">
-                <% if(!user){ %>
-                <li><a href="/" style="color:white">Trang chủ</a></li>
-                <li><a href="#" style="color:white">Giới thiệu</a></li>
-                <li><a href="/prices" style="color:white">Bảng giá</a></li>
-                <li><a href="/login" style="color:white">Đăng nhập</a></li>
-                <li><a href="/register" style="color:white">Đăng ký</a></li>
-                <% } %> <% if(user){ %>
-                <li><p style="color:white;">Xin chào <%=user.fullname%></p></li>
-                <li>
-                  <a href="#" onclick="logout();" style="color:white "
-                    >Đăng xuất</a
-                  >
-                </li>
-                <% } %>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </header>
-    <div class="container">
-      <div class="row">
-        <div class="col s10 text-center">
-          <img
-            class="center"
-            src="img/logo.png"
-            alt="House"
-            style="height: 100%; width: 15%"
-          />
-        </div>
-      </div>
-      <div class="row ">
-        <div class="col-12 text-center">
-          <h3>Nhóm 4 - TEXT TO SPEECH</h3>
-          <h7>Chuyển văn bản thành tiếng nói</h7>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col-12 text-center">
-          <a>
-            <img
-              class="center speaker"
-              src="img/speakre.png"
-              alt="House"
-              style="height: 100%; width: 5%; cursor: pointer;"
-            />
-          </a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 text-right">0/1000</div>
-      </div>
-      <div class="row">
-        <div class="col-12 text-center">
-          <textarea
-            placeholder="Nhập văn bản tại đây"
-            style="height: 300px"
-          ></textarea>
-        </div>
-      </div>
-      <div class="row mt-2 mb-5">
-        <div class="col-12 text-center">
-          Hoặc
-        </div>
-      </div>
 
-      <div class="row mt-2 mb-5">
-        <div class="col-12 text-center">
-          <button class="file">Nhấn vào đây để tải file</button>
-        </div>
+<head>
+  <title>Text to speech</title>
+  <link rel="stylesheet" href="/stylesheets/main.css" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+</head>
+
+<body>
+  <header>
+    <%- include('navbar') %>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col s10 text-center">
+        <img class="center" src="img/logo.png" alt="House" style="height: 100%; width: 15%" />
       </div>
-      <div class="row mt-2 mb-5">
-        <div class="col-12 text-center">
-          <button class="btn btn-primary mr-5">Đọc ngay</button>
-          <button class="btn btn-primary">Xuất file</button>
-        </div>
+    </div>
+    <div class="row ">
+      <div class="col-12 text-center">
+        <h3>Nhóm 4 - TEXT TO SPEECH</h3>
+        <h7>Chuyển văn bản thành tiếng nói</h7>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12 text-center">
+        <a>
+          <img class="center speaker" src="img/speakre.png" alt="House"
+            style="height: 100%; width: 5%; cursor: pointer;" />
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-right">0/1000</div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center">
+        <textarea placeholder="Nhập văn bản tại đây" style="height: 300px"></textarea>
+      </div>
+    </div>
+    <div class="row mt-2 mb-5">
+      <div class="col-12 text-center">
+        Hoặc
       </div>
     </div>
 
-    <footer id="sticky-footer" class="py-4 bg-primary text-white">
-      <div class="container">
-        <div class="row">
-          <div class="col-6">
-            <b>LIÊN HỆ</b>
-            <br />
-            kianto@gmail.com - Tel: 028 6288 4499
-            <br />
-            227 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, Hồ Chí Minh
-          </div>
-          <div class="col-6">
-            <b>VỀ CHÚNG TÔI</b>
-            <br />
-            <br />
-            Sản phẩm được phát hành bởi nhóm 4 - môn Quản lý dự án phần mềm
-          </div>
-        </div>
-        <small>Copyright &copy;</small>
+    <div class="row mt-2 mb-5">
+      <div class="col-12 text-center">
+        <button class="file">Nhấn vào đây để tải file</button>
       </div>
-    </footer>
-  </body>
-  <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"
-  ></script>
-  <script>
-    function logout() {
-      $.post("/api/users/logout").done(() => {
-        window.location.reload()
-      });
-    }
-  </script>
+    </div>
+    <div class="row mt-2 mb-5">
+      <div class="col-12 text-center">
+        <button class="btn btn-primary mr-5">Đọc ngay</button>
+        <button class="btn btn-primary">Xuất file</button>
+      </div>
+    </div>
+  </div>
+
+  <%- include('footer.ejs') %>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+  function logout() {
+    $.post("/api/users/logout").done(() => {
+      window.location.reload()
+    });
+  }
+</script>
+
 </html>

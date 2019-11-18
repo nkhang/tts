@@ -1,126 +1,98 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Register</title>
     <link rel='stylesheet' href='/stylesheets/login.css' />
-    <link rel='stylesheet', href='/lib/css/vex.css'>
-    <link rel='stylesheet', href='/lib/css/vex-theme-default.css'>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <body>
-        <header>
-            <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <img class="logo" src="img/login-logo.PNG" alt="logo">
-                </div>
-                <div class="col-6">
-                        <nav>
-                            <ul class="nav__links">
-                                <li><a href="/" style="color:white">Trang chủ</a></li>
-                                <li><a href="#" style="color:white">Giới thiệu</a></li>
-                                <li><a href="#" style="color:white">Bảng giá</a></li>
-                                <li><a href="/login" style="color:white">Đăng nhập</a></li>
-                                <li><a href="/register" style="color:black; background-color: white">Đăng ký</a></li>
-                            </ul>
-                    </nav>
-                </div>
-            </div>
-            </div>
-        </header>
-        <div class="container login-form">
-            <div class="form">
-                <form class="login-form" id="registerForm" method="POST" action="/api/users/register" onsubmit="return Validate()">
-                    <img class="logo" src="img/register-logo.PNG" alt="logo" style="margin-top: -60px; margin-left: 50px">
-                    <div class="row">
-                        <div class="col-4 mt-2">Họ tên</div>
-                        <div class="col-8">
-                            <input type="text" name="fullname" placeholder="Nhập họ tên"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 mt-2">Email</div>
-                        <div class="col-8">
-                            <input type="email" name="email" placeholder="Nhập email" required/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 mt-2">Số điện thoại</div>
-                        <div class="col-8">
-                            <input type="text" name="numberPhone" placeholder="Nhập số điện thoại"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 mt-2">Mật khẩu</div>
-                        <div class="col-8">
-                            <input type="password" id="pass1" name="password" required placeholder="Nhập mật khẩu"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 mt-2">Xác nhận mật khẩu</div>
-                        <div class="col-8">
-                            <input type="password" id="pass2" required placeholder="Xác nhận mật khẩu"/>
-                        </div>
-                    </div>
-                    
-                    <div class="row" style="font-size: 12px; margin: 5px;">
-                        Bằng cách bấm vào nút Đăng ký, bạn đồng ý ràng buộc với những Điều khoản sử dụng và chính sách quyền riêng tư của chúng tôi, cung cấp cho bạn quyền được bảo mật thông tin
-                    </div>
+    <link rel='stylesheet' , href='/lib/css/vex.css'>
+    <link rel='stylesheet' , href='/lib/css/vex-theme-default.css'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
 
-                    <div class="row mt-4">
-                        <div class="col-sm-12">
-                            <div class="text-center">
-                                <button class="btn btn-primary mt-2" id="singlebutton" style="width: 50%" type="submit">Đăng ký</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <footer id="sticky-footer" class="py-4 bg-primary text-white">
-            <div class="container">
+<body>
+    <header>
+        <%- include('navbar') %>
+    </header>
+    <div class="container login-form">
+        <div class="form">
+            <form class="login-form" id="registerForm" method="POST" action="/api/users/register"
+                onsubmit="return Validate()">
+                <img class="logo" src="img/register-logo.PNG" alt="logo" style="margin-top: -60px; margin-left: 50px">
                 <div class="row">
-                    <div class="col-6">
-                        <b>LIÊN HỆ</b>
-                        <br/>
-                        kianto@gmail.com - Tel: 028 6288 4499
-                        <br/>
-                        227 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, Hồ Chí Minh
-                    </div>
-                    <div class="col-6">
-                        <b>VỀ CHÚNG TÔI</b>
-                        <br/>
-                        <br/>
-                        Sản phẩm được phát hành bởi nhóm 4 - môn Quản lý dự án phần mềm
+                    <div class="col-4 mt-2">Họ tên</div>
+                    <div class="col-8">
+                        <input type="text" name="fullname" placeholder="Nhập họ tên" />
                     </div>
                 </div>
-              <small>Copyright &copy;</small>
-            </div>
-        </footer>
-  </body>
-  <script type="text/javascript">
-  function Validate() {
-    var pass1 = document.getElementById("pass1").value;
-    var pass2 = document.getElementById("pass2").value;
-    var ok = true;
-    if(pass1.length <= 6) {
-        alert("Mật khẩu phải lớn hơn 6 kí tự");
-        return false;
+                <div class="row">
+                    <div class="col-4 mt-2">Email</div>
+                    <div class="col-8">
+                        <input type="email" name="email" placeholder="Nhập email" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 mt-2">Số điện thoại</div>
+                    <div class="col-8">
+                        <input type="text" name="numberPhone" placeholder="Nhập số điện thoại" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 mt-2">Mật khẩu</div>
+                    <div class="col-8">
+                        <input type="password" id="pass1" name="password" required placeholder="Nhập mật khẩu" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 mt-2">Xác nhận mật khẩu</div>
+                    <div class="col-8">
+                        <input type="password" id="pass2" required placeholder="Xác nhận mật khẩu" />
+                    </div>
+                </div>
+
+                <div class="row" style="font-size: 12px; margin: 5px;">
+                    Bằng cách bấm vào nút Đăng ký, bạn đồng ý ràng buộc với những Điều khoản sử dụng và chính sách quyền
+                    riêng tư của chúng tôi, cung cấp cho bạn quyền được bảo mật thông tin
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-sm-12">
+                        <div class="text-center">
+                            <button class="btn btn-primary mt-2" id="singlebutton" style="width: 50%" type="submit">Đăng
+                                ký</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <%- include('footer.ejs') %>
+</body>
+<script type="text/javascript">
+    function Validate() {
+        var pass1 = document.getElementById("pass1").value;
+        var pass2 = document.getElementById("pass2").value;
+        var ok = true;
+        if (pass1.length <= 6) {
+            alert("Mật khẩu phải lớn hơn 6 kí tự");
+            return false;
+        }
+        if (!pass1 || !pass2) {
+            alert("Nhập lại mật khẩu");
+            return false;
+        }
+        else if (pass1 != pass2) {
+            alert("Mật khẩu không trùng khớp");
+            ok = false;
+        }
+        return ok;
     }
-    if(!pass1 || !pass2){
-       alert("Nhập lại mật khẩu");
-       return false;
-    }
-    else if (pass1 != pass2){ 
-        alert("Mật khẩu không trùng khớp");
-        ok = false;
-    }
-    return ok;
-  }
-  </script>
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-  <script src="/lib/js/vex.combined.min.js"></script>
-  <script src="/js/register.js"></script>
+</script>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script src="/lib/js/vex.combined.min.js"></script>
+<script src="/js/register.js"></script>
 
 </html>
