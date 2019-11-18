@@ -1,13 +1,21 @@
 var express = require("express");
 var router = express.Router();
+
+require("../../../db");
 const User = require("../../../models/User");
 const bcrypt = require("bcryptjs");
 require("../../../db");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+
+var nodemailer = require('nodemailer');
+
 const validateRegisterInput = require("../../../validation/register");
 const validateLogoutInput = require("../../../validation/logout");
 const auth = require("../../../middlewares/auth.mdw");
+const validateForgotPasswordInput = require("../../../validation/fogotpassword");
+
+//register
 // @route   POST /users/register
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -118,6 +126,83 @@ router.post("/checkToken", (req, res) => {
         res.json({ data: { result: false }, error: {} });
       }
     });
+});
+
+// @route   POST /users/forgotpassword
+router.post("/forgotpassword", (req, res) => {
+  const { errors, isValid } = validateForgotPasswordInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json({ data: {}, error: errors });
+  }
+
+  User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
+      
+      var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: true,
+        auth: {
+            user: 'ttsgroup4@gmail.com',
+            pass: 'texttospeech'
+        }
+      });
+    
+      user.tempPassword = Math.random().toString(36).substring(3);
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(user.tempPassword, salt, (err, hash) => {
+          if (err) throw err;
+          
+          let tempPass = user.tempPassword;
+          user.tempPassword = hash;
+          User.findByIdAndUpdate(user._id, user, {new: true}, (err, doc) => {
+            if (err) {
+              errors.message = "System cannot progress right now";
+              errors.code = 501;
+              return res.status(501).json({ data: {}, error: errors });
+            }
+                      
+            var mail = {
+              from: 'ttsgroup4@gmail.com',
+              to: user.email,
+              subject: 'Bạn vừa gửi một yêu cầu thay đổi mật khẩu',
+              html: '<p>Xin chào ' + user.fullname + '</p>'
+              + '<p>Bạn hoặc một ai đó vừa gửi yêu cầu thay đổi mật khẩu từ hệ thống website của TEXT TO SPEECH. Vui lòng đăng nhập mới mật khẩu tạm thời sau: </p>'
+              + '<p><b>' + tempPass + '</b></p>'
+    
+              + '<b>Lưu ý:</b> <i>Nếu bạn không thực hiện yêu cầu này, thì bạn có thể yên tâm bỏ qua!</i>'
+              + '<br>'
+              + '<p>Trân trọng</p>'
+              + '<p>TTS</p>'
+            };
+        
+            transporter.sendMail(mail, function (error, info) {
+              if (error) {
+                  console.log("Sending mail error: " + error);
+                  errors.message = "Sending mail fails !";
+                  errors.code = 1010;
+                  
+                  return res.redirect("/");
+              } else {
+                return res.redirect("/login");
+              }
+            });
+          
+
+          });
+        });
+      });
+
+    } else {
+      errors.message = "Email does not exist in our system !";
+      errors.code = 1010;
+      return res.status(400).json({ data: {}, error: errors });
+    }
+  });
+
 });
 
 /* GET users listing. */

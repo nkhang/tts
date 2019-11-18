@@ -26,7 +26,11 @@ const UserSchema = new Schema({
   updateAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  tempPassword: {
+    type: String,
+    default: ""
+  },
 });
 
 module.exports = User = mongoose.model("users", UserSchema);
