@@ -2,10 +2,15 @@ var express = require("express");
 var router = express.Router();
 let multer = require("multer");
 let path = require("path");
+var request = require('request');
+var textract = require('textract');
+var pdfUtil = require('pdf-to-text');
 
 let uploads = "uploads";
 let outputs = "outputs";
 let language = "vi";
+let urlUploadFile = "http://localhost:5000/upload";
+let urlGetFile = "http://localhost:5000/tts";
 
 let diskStorage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -33,64 +38,80 @@ let diskStorage = multer.diskStorage({
 
 let uploadFile = multer({ storage: diskStorage }).single("file");
 
-router.post("/upload", async (req, res) => {
-  console.log("enter upoad");
+router.post("/uploadFile", async (req, res) => {
+
   uploadFile(req, res, error => {
     if (error) {
-      return res.send(`Error when trying to upload: ${error}`);
+      let errors = {'data': {}, 'error': {'message': `Error when trying to upload: ${error}`, 'code': 303}}
+      return res.send(errors);
     }
+    
+    let mimetype = req.file.mimetype
+    let path = req.file.path
 
-    let dir = __dirname.slice(0, __dirname.lastIndexOf("\\"));
-    let filenameInput = path.join(`${dir}/${uploads}/${req.file.filename}`);
-    var prefixFilename = filenameInput.slice(
-      filenameInput.length - 4,
-      filenameInput.length
-    );
-    var name = req.file.filename.slice(0, req.file.filename.length - 4) + "mp3";
-
-    if (prefixFilename[0] == ".") {
-      prefixFilename = filenameInput.slice(
-        filenameInput.length - 3,
-        filenameInput.length
-      );
-      name = req.file.filename.slice(0, req.file.filename.length - 3) + "mp3";
+    if (mimetype === 'application/pdf') {
+      pdfUtil.info(path, function(error, info) {
+        if (error) {
+          let errors = {'data': {}, 'error': {'message': `Error when trying to read: ${error}`, 'code': 304}}
+          res.send(errors)
+        }
+        sendData(info, language, req.file.filename)
+      });
+    } else {
+      textract.fromFileWithMimeAndPath(mimetype, path, function (error, text) {
+        if (error == null) {
+          sendData(text, language, req.file.filename, res)
+        } else {
+          let errors = {'data': {}, 'error': {'message': `Error when trying to read: ${error}`, 'code': 305}}
+          res.send(errors)
+        }
+      })
     }
-
-    let filenameOutput = path.join(`${dir}/${outputs}/${name}`);
-
-    call_TTS(filenameInput, filenameOutput, language, res, prefixFilename);
   });
 });
+
+router.post("/uploadText", async (req, res) => {
+  if (req.body.content.length == 0) {
+    let errors = {'data': {}, 'error': {'message': `Error when trying to upload: ${error}`, 'code': 303}}
+    res.send(errors)
+  }
+  sendData(req.body.content, language, `file${req.body.content.length}.txt`, res)
+});
+
+function sendData(content, language, filename, res) {
+  const options = {
+    content : content,
+    language: language,
+    filename: filename
+  }
+  console.log(options)
+  request({
+    method: 'POST',
+    url: urlUploadFile,
+    json: options
+  }, (error, response, body) => {
+    console.log(body, error)
+      if (error) {
+        let errors = {'data': {}, 'error': {'message': `Error when translate: ${error}`, 'code': 305}}
+        res.send(errors)
+      }
+     
+      request({
+        method: 'POST',
+        url: urlGetFile,
+        json: body.data
+      }, (error, response, body) => {
+        if (error) {
+          let errors = {'data': {}, 'error': {'message': `Error when get file: ${error}`, 'code': 306}}
+          res.send(errors)
+        }
+          res.send(body)
+      });
+  });
+}
 
 router.get("/hello", (req, res, next) => {
   res.send("hello");
 });
-
-function call_TTS(
-  filenameInput,
-  filenameOutput,
-  language,
-  res,
-  prefixFilename
-) {
-  var { spawn } = require("child_process");
-
-  var process = spawn("python", [
-    path.join(`${__dirname}/textToSpeech.py`),
-    filenameInput,
-    filenameOutput,
-    language,
-    prefixFilename
-  ]);
-
-  process.stdout.on("data", data => {
-    res.sendFile(filenameOutput);
-    console.log(`stdout: ${data}`);
-  });
-  process.stderr.on("data", data => {
-    res.send(data.toString());
-    console.log(`stderr: ${data}`);
-  });
-}
 
 module.exports = router;
