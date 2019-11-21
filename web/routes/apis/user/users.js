@@ -1,13 +1,13 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../../../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 require("../../../db");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const validateRegisterInput = require("../../../validation/register");
 const validateLogoutInput = require("../../../validation/logout");
-//register
+const auth = require("../../../middlewares/auth.mdw");
 // @route   POST /users/register
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -55,7 +55,6 @@ router.post("/register", (req, res) => {
   });
 });
 
-
 // @route   POST /users/login
 router.post("/login", (req, res) => {
   passport.authenticate(
@@ -77,6 +76,8 @@ router.post("/login", (req, res) => {
           console.log("set cookie successfully");
           return res.redirect("/");
         });
+      } else {
+        return res.redirect("/login");
       }
     }
   )(req, res);
@@ -139,6 +140,11 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/me", (req, res, next) => {
+  console.log(res.locals.user);
+  res.json(res.locals.user);
+});
+
 router.get("/:id", async (req, res) => {
   try {
     var user = await User.findById(req.params.id).exec();
@@ -167,5 +173,4 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send({ data: {}, error: error });
   }
 });
-
 module.exports = router;
