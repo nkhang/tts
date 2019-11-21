@@ -25,11 +25,13 @@ passport.use(
             console.log("INFO: user not found in passport");
             return done(null, false);
           }
-          if (validatePassword(user, password) == false) {
-            console.log("INFO: invalid password");
-            return done(null, false);
-          }
-          return done(null, user);
+          bcrypt.compare(password, user.password).then(res => {
+            if (res) {
+              done(null, user)
+            } else {
+              done(null, false)
+            }
+          })
         })
         .catch(err => done(err));
     }
