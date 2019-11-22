@@ -69,7 +69,10 @@ router.post("/login", (req, res) => {
     "local",
     { session: false, failureRedirect: "/login" },
     (err, user) => {
-      if (user) {
+      if (!user) {
+        return res.redirect("/login");
+
+      } else {
         jwt.sign({ user: user }, "StRoNGs3crE7", (err, token) => {
           if (err) {
             return res.redirect("/login");
@@ -78,14 +81,10 @@ router.post("/login", (req, res) => {
           res.cookie("jwt", token, {
             httpOnly: true,
             sameSite: true
-            // signed: true,
-            // secure: true
           });
-          console.log("set cookie successfully");
           return res.redirect("/");
-        });
-      } else {
-        return res.redirect("/login");
+        }
+        )
       }
     }
   )(req, res);
@@ -94,6 +93,7 @@ router.post("/login", (req, res) => {
 // @route   POST /users/logout
 router.post("/logout", (req, res) => {
   res.clearCookie("jwt");
+  res.removeHeader("Cookie")
   res.redirect("/login");
 });
 
@@ -139,58 +139,58 @@ router.post("/forgotpassword", (req, res) => {
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      
+
       var transporter = nodemailer.createTransport({
         service: 'Gmail',
         host: 'smtp.gmail.com',
         port: 587,
         secure: true,
         auth: {
-            user: 'ttsgroup4@gmail.com',
-            pass: 'texttospeech'
+          user: 'ttsgroup4@gmail.com',
+          pass: 'texttospeech'
         }
       });
-    
+
       user.tempPassword = Math.random().toString(36).substring(3);
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(user.tempPassword, salt, (err, hash) => {
           if (err) throw err;
-          
+
           let tempPass = user.tempPassword;
           user.tempPassword = hash;
-          User.findByIdAndUpdate(user._id, user, {new: true}, (err, doc) => {
+          User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => {
             if (err) {
               errors.message = "System cannot progress right now";
               errors.code = 501;
               return res.status(501).json({ data: {}, error: errors });
             }
-                      
+
             var mail = {
               from: 'ttsgroup4@gmail.com',
               to: user.email,
               subject: 'Bạn vừa gửi một yêu cầu thay đổi mật khẩu',
               html: '<p>Xin chào ' + user.fullname + '</p>'
-              + '<p>Bạn hoặc một ai đó vừa gửi yêu cầu thay đổi mật khẩu từ hệ thống website của TEXT TO SPEECH. Vui lòng đăng nhập mới mật khẩu tạm thời sau: </p>'
-              + '<p><b>' + tempPass + '</b></p>'
-    
-              + '<b>Lưu ý:</b> <i>Nếu bạn không thực hiện yêu cầu này, thì bạn có thể yên tâm bỏ qua!</i>'
-              + '<br>'
-              + '<p>Trân trọng</p>'
-              + '<p>TTS</p>'
+                + '<p>Bạn hoặc một ai đó vừa gửi yêu cầu thay đổi mật khẩu từ hệ thống website của TEXT TO SPEECH. Vui lòng đăng nhập mới mật khẩu tạm thời sau: </p>'
+                + '<p><b>' + tempPass + '</b></p>'
+
+                + '<b>Lưu ý:</b> <i>Nếu bạn không thực hiện yêu cầu này, thì bạn có thể yên tâm bỏ qua!</i>'
+                + '<br>'
+                + '<p>Trân trọng</p>'
+                + '<p>TTS</p>'
             };
-        
+
             transporter.sendMail(mail, function (error, info) {
               if (error) {
-                  console.log("Sending mail error: " + error);
-                  errors.message = "Sending mail fails !";
-                  errors.code = 1010;
-                  
-                  return res.redirect("/");
+                console.log("Sending mail error: " + error);
+                errors.message = "Sending mail fails !";
+                errors.code = 1010;
+
+                return res.redirect("/");
               } else {
                 return res.redirect("/login");
               }
             });
-          
+
 
           });
         });

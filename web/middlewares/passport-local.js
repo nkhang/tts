@@ -6,9 +6,7 @@ const bcrypt = require("bcryptjs");
 require("../db");
 
 function validatePassword(user, password) {
-  bcrypt.compare(password, user.password).then(res => {
-    return res;
-  });
+  return bcrypt.compareSync(password, user.password) || bcrypt.compareSync(password, user.tempPassword)
 }
 
 passport.use(
@@ -18,20 +16,19 @@ passport.use(
       usernameField: "email",
       passwordField: "password"
     },
-    function(email, password, done) {
-      return UserModel.findOne({ email: email })
+    function (email, password, done) {
+      UserModel.findOne({ email: email })
         .then(user => {
           if (!user) {
             console.log("INFO: user not found in passport");
             return done(null, false);
           }
-          bcrypt.compare(password, user.password).then(res => {
-            if (res) {
-              done(null, user)
-            } else {
-              done(null, false)
-            }
-          })
+          console.log(`INFO: compare password ${password} and hash ${user.password}`);
+          if (!validatePassword(user, password)) {
+            return done(null, false)
+          } else {
+            return done(null, user)
+          }
         })
         .catch(err => done(err));
     }
