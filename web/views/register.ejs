@@ -16,6 +16,7 @@
     </header>
     <div class="container login-form">
         <div class="form">
+            <% if(!user){ %>
             <form class="login-form" id="registerForm" method="POST" action="/api/users/register"
                 onsubmit="return Validate()">
                 <img class="logo" src="img/register-logo.PNG" alt="logo" style="margin-top: -60px; margin-left: 50px">
@@ -46,7 +47,7 @@
                 <div class="row">
                     <div class="col-4 mt-2">Xác nhận mật khẩu</div>
                     <div class="col-8">
-                        <input type="password" id="pass2" required placeholder="Xác nhận mật khẩu" />
+                        <input type="password" id="pass2" name="repassword" required placeholder="Xác nhận mật khẩu" />
                     </div>
                 </div>
 
@@ -58,12 +59,16 @@
                 <div class="row mt-4">
                     <div class="col-sm-12">
                         <div class="text-center">
-                            <button class="btn btn-primary mt-2" id="singlebutton" style="width: 50%" type="submit">Đăng
-                                ký</button>
+                            <button class="btn btn-primary mt-2" id="singlebutton" style="width: 50%" type="submit">
+                                Đăng ký</button>
                         </div>
                     </div>
                 </div>
             </form>
+            <% } %> <% if(user){ %>
+                Bạn có muốn đăng xuất tài khoản hiện tại?
+                <a href="#" onclick="logout();">Đăng xuất</a>
+            <% } %>
         </div>
     </div>
 

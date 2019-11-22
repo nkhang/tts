@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12 text-right">0/1000</div>
+      <div class="col-12 text-right">0/1000   </div>
     </div>
     <div class="row">
       <div class="col-12 text-center">
@@ -63,12 +63,5 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script>
-  function logout() {
-    $.post("/api/users/logout").done(() => {
-      window.location.reload()
-    });
-  }
-</script>
-
+  
 </html>

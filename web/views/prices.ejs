@@ -24,14 +24,19 @@
                     </div>
                     <ul class="list-group list-group-flush p-3">
                         <li class="list-group-item ">
-                            <div class="d-flex justify-content-center">500</div>
+                            <div class="d-flex justify-content-center">500.000</div>
                             <div class="d-flex justify-content-center">VND</div>
-                            <a href="/step/information?pack=normal" class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">Mua ngay</a>
-                            <div class="d-flex justify-content-center">được cấp 1 API</div>
-
+                            <% if(!user){ %>
+                                <a href="/login" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                    Đăng nhập</a>
+                            <% } %> <% if(user){ %>
+                                <a href="/step/information?pack=normal" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                    Mua ngay</a>
+                            <% } %>
+                            <div class="d-flex justify-content-center">500.000 ký tự</div>
                         </li>
-                        <li class="list-group-item d-flex justify-content-center">Tối đa 500 lượt truy cập/ngày</li>
-                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ kỹ thuật cơ bản</li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ 1 giọng nói</li>
+                        <li class="list-group-item d-flex justify-content-center">Không hỗ trợ kỹ thuật</li>
                     </ul>
                 </div>
             </div>
@@ -42,15 +47,19 @@
                     </div>
                     <ul class="list-group list-group-flush p-3">
                         <li class="list-group-item ">
-                            <div class="d-flex justify-content-center">1.000.000</div>
+                            <div class="d-flex justify-content-center">2.000.000</div>
                             <div class="d-flex justify-content-center">VND</div>
-                            <a href="/step/information?pack=super" 
-                                class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">Mua
-                                ngay</a>
-                            <div class="d-flex justify-content-center">được cấp 1 API</div>
-
+                            <% if(!user){ %>
+                                <a href="/login" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                    Đăng nhập</a>
+                            <% } %> <% if(user){ %>
+                                <a href="/step/information?pack=super" 
+                                    class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">
+                                    Mua ngay</a>
+                            <% } %>
+                            <div class="d-flex justify-content-center">4.000.000 ký tự</div>
                         </li>
-                        <li class="list-group-item d-flex justify-content-center">Tối đa 1000 lượt truy cập/ngày</li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ 2 giọng vùng miền</li>
                         <li class="list-group-item d-flex justify-content-center">Hỗ trợ kỹ thuật 24/7</li>
                     </ul>
                 </div>
@@ -62,15 +71,19 @@
                     </div>
                     <ul class="list-group list-group-flush p-3">
                         <li class="list-group-item ">
-                            <div class="d-flex justify-content-center">2.000.000</div>
+                            <div class="d-flex justify-content-center">4.000.000</div>
                             <div class="d-flex justify-content-center">VND</div>
-                            <a href="/step/information?pack=ultra"
-                                class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">Mua
-                                ngay</a>
-                            <div class="d-flex justify-content-center">được cấp 2 API</div>
-
+                            <% if(!user){ %>
+                                <a href="/login" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                    Đăng nhập</a>
+                            <% } %> <% if(user){ %>
+                                <a href="/step/information?pack=ultra"
+                                    class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">
+                                    Mua ngay</a>
+                            <% } %>
+                            <div class="d-flex justify-content-center">10.000.000 ký tự</div>
                         </li>
-                        <li class="list-group-item d-flex justify-content-center">Tối đa 2000 lượt truy cập/ngày</li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ 5 giọng vùng miền</li>
                         <li class="list-group-item d-flex justify-content-center">Hỗ trợ kỹ thuật 24/7</li>
                     </ul>
                 </div>

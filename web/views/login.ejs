@@ -16,14 +16,16 @@
     </header>
     <div class="container login-form">
         <div class="form">
+            <% if(!user){ %>
             <form class="login-form" id="loginForm" method="POST" action="/api/users/login"
                 onsubmit="return Validate()">
                 <img class="logo" src="img/login-logo.PNG" alt="logo" style="margin-top: -100px">
+                <h3>Đăng nhập</h3>
                 <input type="email" name="email" required placeholder="Email hoặc số điện thoại" />
                 <input type="password" name="password" id="pass1" placeholder="Mật khẩu" required />
                 <div class="row">
                     <div class="col-6">
-                        <a href="#">Quên mật khẩu</a>
+                        <a href="/forgotpassword">Quên mật khẩu</a>
                     </div>
                     <div class="col-6">
                         <button type="submit" class="btn btn-primary"> Đăng nhập </button>
@@ -31,6 +33,10 @@
                 </div>
                 Bạn chưa có tài khoản? <a href="/register">Đăng ký</a>
             </form>
+            <% } %> <% if(user){ %>
+                Bạn có muốn đăng xuất tài khoản hiện tại?
+                <a href="#" onclick="logout();">Đăng xuất</a>
+            <% } %>
         </div>
     </div>
 

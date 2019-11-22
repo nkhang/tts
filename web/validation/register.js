@@ -24,8 +24,8 @@ module.exports = function validateRegisterInput(data) {
     errors.code = 1004
   }
 
-  if (!Validator.isLength(data.password, { min: 8, max: 30 })) {
-    errors.message = 'Password must be at least 8 characters';
+  if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
+    errors.message = 'Password must be at least 6 characters';
     errors.code = 1005
   }
 
@@ -40,13 +40,18 @@ module.exports = function validateRegisterInput(data) {
   }
 
   if (!Validator.isLength(data.fullname, { min: 2, max: 50 })) {
-    errors.message = 'fullname must be between 2 and 50 characters';
+    errors.message = 'Fullname must be between 2 and 50 characters';
     errors.code = 1008
   }
 
   if (Validator.isEmpty(data.fullname)) {
-    errors.message = 'fullname field is required';
+    errors.message = 'Fullname field is required';
     errors.code = 1009
+  }
+
+  if(data.password !== data.repassword) {
+    errors.message = 'Repassword is not matched';
+    errors.code = 1000;
   }
 
   return {

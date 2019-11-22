@@ -139,7 +139,6 @@ router.post("/forgotpassword", (req, res) => {
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-
       var transporter = nodemailer.createTransport({
         service: 'Gmail',
         host: 'smtp.gmail.com',
@@ -150,7 +149,6 @@ router.post("/forgotpassword", (req, res) => {
           pass: 'texttospeech'
         }
       });
-
       user.tempPassword = Math.random().toString(36).substring(3);
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(user.tempPassword, salt, (err, hash) => {
@@ -161,8 +159,8 @@ router.post("/forgotpassword", (req, res) => {
           User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => {
             if (err) {
               errors.message = "System cannot progress right now";
-              errors.code = 501;
-              return res.status(501).json({ data: {}, error: errors });
+              errors.code = 1050;
+              return res.status(1050).json({ data: {}, error: errors });
             }
 
             var mail = {
@@ -190,7 +188,6 @@ router.post("/forgotpassword", (req, res) => {
                 return res.redirect("/login");
               }
             });
-
 
           });
         });

@@ -19,9 +19,6 @@ $(document).ready(() => {
       error: function(error){
         const code =  error.responseJSON.error.code;
         switch(code) {
-          case 1010:
-            window.alert('Đăng ký thành công, bạn sẽ được chuyển hướng sang trang đăng nhập !');
-            break;
           case 1001:
             window.alert('Email không hợp lệ !');
             break;  
