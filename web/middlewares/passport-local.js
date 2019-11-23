@@ -1,10 +1,9 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const UserModel = require("../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 require("../db");
-
 
 function validatePassword(user, password) {
   bcrypt.compare(password, user.password).then(res => {
@@ -12,7 +11,9 @@ function validatePassword(user, password) {
   });
 }
 
-passport.use("local", new LocalStrategy(
+passport.use(
+  "local",
+  new LocalStrategy(
     {
       usernameField: "email",
       passwordField: "password"
@@ -32,4 +33,5 @@ passport.use("local", new LocalStrategy(
         })
         .catch(err => done(err));
     }
-  ))
+  )
+);
