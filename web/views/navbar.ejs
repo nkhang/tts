@@ -7,7 +7,7 @@
             <nav>
                 <ul class="nav__links ml-1">
                     <li><a href="/" style="color:white">Trang chủ</a></li>
-                    <li><a href="#" style="color:white">Giới thiệu</a></li>
+                    <li><a href="#" style="color:white">Hướng dẫn sử dụng</a></li>
                     <li><a href="/prices" style="color:white">Bảng giá</a></li>
                     <% if(!user){ %>
                     <li><a href="/login" style="color:white">Đăng nhập</a></li>
@@ -16,7 +16,7 @@
                     <li class="dropdown">
                         <a style="color:white;" class="dropdown-toggle">Xin chào <%=user.fullname%></a>
                         <div class="dropdown-content">
-                            <a href="#" style="color:white;">Thông tin cá nhân</a>
+                            <a href="/profile" style="color:white;">Thông tin cá nhân</a>
                         </div>
                     </li>
                     <li>
