@@ -13,8 +13,11 @@
                     <li><a href="/login" style="color:white">Đăng nhập</a></li>
                     <li><a href="/register" style="color:white">Đăng ký</a></li>
                     <% } %> <% if(user){ %>
-                    <li>
-                        <p style="color:white;">Xin chào <%=user.fullname%></p>
+                    <li class="dropdown">
+                        <a style="color:white;" class="dropdown-toggle">Xin chào <%=user.fullname%></a>
+                        <div class="dropdown-content">
+                            <a href="#" style="color:white;">Thông tin cá nhân</a>
+                        </div>
                     </li>
                     <li>
                         <a href="#" onclick="logout();" style="color:white ">Đăng xuất</a>
@@ -28,7 +31,7 @@
 <script>
     function logout() {
         $.post("/api/users/logout").done(() => {
-        window.location.reload()
+            window.location.reload()
         });
     }
 </script>
