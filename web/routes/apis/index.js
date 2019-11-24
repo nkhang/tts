@@ -13,5 +13,14 @@ router.use("/users", userRouter);
 //   authmdw,
 //   ttsRouter
 // );
-
+router.use((err, req, res, next) => {
+    var resp = {}
+    res.status(err.status || 500)
+    resp.status = err.code
+    resp.message = err.message
+    if (err.data) {
+        resp.data = data
+    }
+    res.json(resp)
+})
 module.exports = router;

@@ -17,19 +17,25 @@ const validateForgotPasswordInput = require("../../../validation/fogotpassword")
 
 //register
 // @route   POST /users/register
-router.post("/register", (req, res) => {
+router.post("/register", (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   // Check Validation
   if (!isValid) {
-    return res.status(400).json({ data: {}, error: errors });
+    return next({
+      status: 400,
+      code: errors.code,
+      message: errors.message
+    })
   }
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      errors.message = "Email already exists";
-      errors.code = 1010;
-      return res.status(400).json({ data: {}, error: errors });
+      return next({
+        status: 400,
+        code: 1010,
+        message: "Email already exists"
+      })
     } else {
       let body = req.body;
       const newUser = new User({
@@ -45,21 +51,20 @@ router.post("/register", (req, res) => {
           newUser
             .save()
             .then(user => {
-              delete user["_id"];
-              delete user["password"];
+              // delete user["_id"];
+              // delete user["password"];
               console.log(user);
               res.json({
-                success: true,
-                data: {
-                  email: user.email
-                },
-                error: {}
+                status: 200,
+                code: 1,
+                message: "register successfully",
+                data: user
               });
             })
             .catch(err => console.log(err));
         });
       });
-    }
+    };
   });
 });
 
