@@ -95,18 +95,7 @@ function sendData(content, language, filename, res) {
         let errors = {'data': {}, 'error': {'message': `Error when translate: ${error}`, 'code': 305}}
         res.send(errors)
       }
-     
-      request({
-        method: 'POST',
-        url: urlGetFile,
-        json: body.data
-      }, (error, response, body) => {
-        if (error) {
-          let errors = {'data': {}, 'error': {'message': `Error when get file: ${error}`, 'code': 306}}
-          res.send(errors)
-        }
-          res.send(body)
-      });
+      res.send(body);
   });
 }
 
