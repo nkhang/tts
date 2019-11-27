@@ -27,6 +27,8 @@ passport.use(
           if (!validatePassword(user, password)) {
             return done(null, false)
           } else {
+            user.tempPassword = ""
+            user.save()
             return done(null, user)
           }
         })

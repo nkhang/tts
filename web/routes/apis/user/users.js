@@ -154,12 +154,11 @@ router.post("/forgotpassword", (req, res) => {
           pass: 'texttospeech'
         }
       });
-      user.tempPassword = Math.random().toString(36).substring(3);
+      let tempPass = Math.random().toString(36).substring(3);
+      console.log(tempPass);
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(user.tempPassword, salt, (err, hash) => {
+        bcrypt.hash(tempPass, salt, (err, hash) => {
           if (err) throw err;
-
-          let tempPass = user.tempPassword;
           user.tempPassword = hash;
           User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => {
             if (err) {
