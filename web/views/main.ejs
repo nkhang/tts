@@ -49,47 +49,58 @@
 
     <div class="row mt-2 mb-5">
       <div class="col-12 text-center">
-        <button class="file">Nhấn vào đây để tải file</button>
+
+        <div class="upload_file">
+          <input class="file" type="file" id="file" name="file">Nhấn vào đây để tải file</input>
+        </div>
+
       </div>
     </div>
     <div class="row mt-2 mb-5">
       <div class="col-12 text-center">
-        <button class="btn btn-primary mr-5">Đọc ngay</button>
-        <button class="btn btn-primary">Xuất file</button>
+        <button type="button" class="btn btn-primary" onclick="upload()">Đọc ngay</button>
+        <button type="button" class="btn btn-primary">Xuất file</button>
       </div>
     </div>
+    <audio id="audio" style="display:none" controls>
+      Your browser does not support the
+      <code>audio</code> element.
+    </audio>
   </div>
 
   <div class="row mt-2 mb-5">
     <div class="col-12 text-center mb-5 mt-2">
-        <h2>GIỚI THIỆU API TTS</h2>
+      <h2>GIỚI THIỆU API TTS</h2>
     </div>
     <div class="col-12 text-center">
       <div class="row m-2">
         <div class="col-4 text-center">
           <div class="row">
             <div class="col-12 text-center mb-2">
-              <img class="center speaker" src="img/natural_voice.svg" alt="House"/>
+              <img class="center speaker" src="img/natural_voice.svg" alt="House" />
             </div>
           </div>
-          <i>Bằng cách sử dụng các công nghệ tiên tiến nhất của thế giới cho ngôn ngữ tự nhiên, xử lý giọng nói và học sâu, hệ thống tổng hợp giọng nói cực kỳ chính xác và tự nhiên</i>
+          <i>Bằng cách sử dụng các công nghệ tiên tiến nhất của thế giới cho ngôn ngữ tự nhiên, xử lý giọng nói và học
+            sâu, hệ thống tổng hợp giọng nói cực kỳ chính xác và tự nhiên</i>
         </div>
         <div class="col-4 text-center">
           <div class="row">
             <div class="col-12 text-center mb-2">
-              <img class="center speaker" src="img/multi_voice.svg" alt="House"/>
+              <img class="center speaker" src="img/multi_voice.svg" alt="House" />
             </div>
           </div>
-          <i>Chúng tôi hiện đang hỗ trợ tiếng nói cho tin tức, câu chuyện từ các biến thể khác nhau bao gồm: giọng nói miền Bắc (2 nữ và 1 nam), giọng nói trung tâm (1 nữ), giọng nói miền Nam (1 nữ và 1 nam)</i>
+          <i>Chúng tôi hiện đang hỗ trợ tiếng nói cho tin tức, câu chuyện từ các biến thể khác nhau bao gồm: giọng nói
+            miền Bắc (2 nữ và 1 nam), giọng nói trung tâm (1 nữ), giọng nói miền Nam (1 nữ và 1 nam)</i>
         </div>
         <div class="col-4 text-center">
           <div class="row">
             <div class="col-12 text-center mb-2">
-              <img class="center speaker" src="img/reply.svg" alt="House"/>
+              <img class="center speaker" src="img/reply.svg" alt="House" />
             </div>
           </div>
-          <i>Có thể nhanh chóng đáp ứng mọi yêu cầu của khách hàng cùng một lúc</i>       </div>
+          <i>Có thể nhanh chóng đáp ứng mọi yêu cầu của khách hàng cùng một lúc</i>
         </div>
+      </div>
     </div>
   </div>
 
@@ -97,5 +108,51 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  
+<script>
+  function logout() {
+    $.post("/api/users/logout").done(() => {
+      window.location.reload()
+    });
+  }
+
+  function upload() {
+    var file = $('#file').get(0).files[0];
+    var text = $('#text').val();
+    debugger
+
+    if (file != null) {
+      var object = new FormData();
+      object.append('file', file);
+
+      $.ajax({
+        type: 'post',
+        data: object,
+        processData: false,
+        contentType: false,
+        url: '/api/tts/uploadFile',
+        success: function (msg) {
+          $('#audio').attr('src', msg.data.file.secure_url);
+          document.getElementById('audio').play();
+        }
+      })
+    }
+    else {
+      var object = {};
+      object.content = $('#text').val();
+      $.ajax({
+        url: '/api/tts/uploadText',
+        type: 'post',
+        data: JSON.stringify(object),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (msg) {
+          $('#audio').attr('src', msg.data.file.secure_url);
+          document.getElementById('audio').play();
+        }
+      })
+    }
+
+  }
+</script>
+
 </html>

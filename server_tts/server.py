@@ -5,15 +5,20 @@ from flask_jsonpify import jsonify
 from werkzeug.utils import secure_filename
 import os
 from gtts import gTTS
-from docx import Document
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
-UPLOAD_FOLDER = 'uploads\\'
-OUTPUT_FOLDER = 'outputs\\'
+OUTPUT_FOLDER = '\\outputs\\'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 api = Api(app)
+cloudinary.config( 
+  cloud_name = "dwhta0afh", 
+  api_key = "352529278895127", 
+  api_secret = "k_PqUtZjkL_oUM0dY-rBI5Z2FRY" 
+)
 		
 class TTS(Resource):
     def post(self):
@@ -60,17 +65,11 @@ def upload_file():
 		return jsonify(errors)
 	language = request.form['language']
 
-	if f.filename == '':
-		errors = {'data': {}, 'error': {'message': 'no file', 'code': 301}}
-		return jsonify(errors)
-	
-	if f and allowed_file(f.filename):
-		f.save(secure_filename(f.filename))
-		
-		perfix = f.filename.rsplit('.', 1)[1].lower()
-		filename = f.filename.rsplit('.', 1)[0]
-		filenameInput = f.filename
-		filenameOutput = OUTPUT_FOLDER + filename + '.mp3'
+	if allowed_file(ffilename):
+		perfix = ffilename.rsplit('.', 1)[1].lower()
+		filename = ffilename.rsplit('.', 1)[0]
+		filenameInput = ffilename
+		filenameOutput = os.getcwd() + OUTPUT_FOLDER + filename + '.mp3'
 		
 		if not os.path.exists(OUTPUT_FOLDER):
 			os.makedirs(OUTPUT_FOLDER)
@@ -79,7 +78,9 @@ def upload_file():
 		
 		if os.path.exists(filenameInput):
 			os.remove(filenameInput)
-		res = {'data': {'url': filenameOutput}, 'error': {}}
+		
+		response = cloudinary.uploader.upload(filenameOutput,  folder = "audioTTS/", public_id = filename + ".mp3", overwrite = 'true',  resource_type = "raw")
+		res = {'data': {'file': response, 'filename': filenameInput}, 'error': {}}
 		return jsonify(res)
 	errors = {'data': {}, 'error': {'message': 'conversion failed', 'code': 302}}
 	return jsonify(errors)
