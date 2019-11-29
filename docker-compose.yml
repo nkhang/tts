@@ -7,3 +7,10 @@ services:
         image: web:latest
         ports:
             - "3000:3000"
+    tts:
+        build:
+            context: ./tts
+            dockerfile: Dockerfile.tts
+        image: tts:latest
+        ports:
+            - "8080:8080"
