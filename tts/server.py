@@ -87,8 +87,12 @@ def upload_file():
 
 api.add_resource(TTS, '/tts')
 
+port = os.getenv('PORT')
+if not port:
+	port = 5000
+
 if __name__ == '__main__':
     app.run(
 		host="localhost",
-		port=5000
+		port=port
 	)

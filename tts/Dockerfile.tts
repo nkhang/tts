@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+WORKDIR /app/
+
+RUN apk --update add python py-pip \
+&& pip install virtualenv \
+&& virtualenv venv \
+&& pip install flask flask-jsonpify flask-sqlalchemy flask-restful gtts cloudinary
+
+COPY . .
+
+RUN chmod +x entrypoint.sh
+
+ENV PORT 8080
+
+EXPOSE 8080
+
+ENTRYPOINT ./entrypoint.sh
