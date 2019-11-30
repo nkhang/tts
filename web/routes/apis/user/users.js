@@ -211,43 +211,13 @@ router.post("/forgotpassword", (req, res) => {
 
 // @route   POST /users/changeInfo
 router.post("/changeInfo", (req, res, next) => {
-  const { errors, isValid } = validateInfoInput(req.body);
-  
-  // Check Validation
-  if (!isValid) {
-    return next({
-      status: 400,
-      code: errors.code,
-      message: errors.message
-    })
-  }
-
-  User.findOne({ email: req.body.email }).then(u => {
-    if (u && u._id !== res.locals.user._id) {
-      return next({
-        status: 400,
-        code: 1010,
-        message: "Email already exists"
-      });
-    } else {
-      let user = res.locals.user;
-      user.email = req.body.email;
-      user.numberPhone = req.body.numberPhone;
-      user.fullname = req.body.fullname;
-      User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("Info has been changed");
-
-          // TODO: cannot change user here !!!
-          res.locals.user.email = user.email;
-          res.locals.user.numberPhone = user.numberPhone;
-          res.locals.user.fullname = user.fullname;
-        }
-        return res.redirect("/profile");  
-      });
-    }
+  let body = req.body;
+  User.findOne({ email: res.locals.user.email }).then(user => {
+    user.fullname = body.fullname;
+    user.numberPhone = body.numberPhone;
+    user.email = body.email;
+    user.save()
+    return res.redirect("/profile");
   });
 });
 
@@ -269,7 +239,7 @@ router.post("/changePassword", (req, res) => {
       if (err) throw err;
       user.password = hash;
       user.tempPass = "";
-      User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => {});
+      User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => { });
     });
   });
 
