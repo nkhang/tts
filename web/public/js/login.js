@@ -18,7 +18,7 @@ $(document).ready(() => {
         const code =  error.responseJSON.error.code;
         switch(code) {
           case 1012:
-            window.alert('Sai mật khẩu');
+            window.alert('Email hoặc mật khẩu đã nhập không khớp');
             break;
         }
     }

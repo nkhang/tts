@@ -3,6 +3,7 @@
 
 <head>
     <title>Register</title>
+    <link rel="stylesheet" href="/stylesheets/common.css" />
     <link rel='stylesheet' href='/stylesheets/login.css' />
     <link rel='stylesheet' , href='/lib/css/vex.css'>
     <link rel='stylesheet' , href='/lib/css/vex-theme-default.css'>
@@ -80,7 +81,7 @@
         var pass1 = document.getElementById("pass1").value;
         var pass2 = document.getElementById("pass2").value;
         var ok = true;
-        if (pass1.length <= 6) {
+        if (pass1.length < 6) {
             alert("Mật khẩu phải lớn hơn 6 kí tự");
             return false;
         }
