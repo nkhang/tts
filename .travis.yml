@@ -5,4 +5,6 @@ deploy:
     api_key:
         secure: 56b9f837-2eb8-4903-802f-256a2b5dec05
     app: wordspeech
-    on: master
+    on: 
+        - master
+        - dev

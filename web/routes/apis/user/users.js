@@ -210,7 +210,7 @@ router.post("/forgotpassword", (req, res) => {
 });
 
 // @route   POST /users/changeInfo
-router.post("/changeInfo", (req, res) => {
+router.post("/changeInfo", (req, res, next) => {
   const { errors, isValid } = validateInfoInput(req.body);
   
   // Check Validation
