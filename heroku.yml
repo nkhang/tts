@@ -4,4 +4,4 @@ build:
         tts: tts/Dockerfile.tts
 run:
     web: yarn start
-    tts: /bin/sh -c ./entrypoint.sh
+    tts: ./entrypoint.sh
