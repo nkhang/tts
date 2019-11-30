@@ -9,8 +9,8 @@ var pdfUtil = require('pdf-to-text');
 let uploads = "uploads";
 let outputs = "outputs";
 let language = "vi";
-let urlUploadFile = "http://localhost:5000/upload";
-let urlGetFile = "http://localhost:5000/tts";
+let urlUploadFile = "http://tts/upload";
+let urlGetFile = "http://tts/tts";
 
 let diskStorage = multer.diskStorage({
   destination: (req, file, callback) => {

@@ -37,15 +37,14 @@ def textToSpeech(content, language, filenameOutput):
 
 @app.route('/upload', methods = ['POST'])
 def upload_file():
-	if 'file' not in request.files:
+	result = request.get_json()
+	ffilename = result['filename']
+	language = result['language']
+	content = result['content']
+
+	if not ffilename:
 		errors = {'data': {}, 'error': {'message': 'invalid pagram', 'code': 300}}
 		return jsonify(errors)
-	f = request.files['file']
-	
-	if 'language' not in request.form:
-		errors = {'data': {}, 'error': {'message': 'invalid pagram', 'code': 300}}
-		return jsonify(errors)
-	language = request.form['language']
 
 	if allowed_file(ffilename):
 		filename = ffilename.rsplit('.', 1)[0]

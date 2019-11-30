@@ -11,8 +11,6 @@ COPY . .
 
 RUN chmod +x entrypoint.sh
 
-ENV PORT 8080
-
 EXPOSE 8080
 
 ENTRYPOINT ./entrypoint.sh
