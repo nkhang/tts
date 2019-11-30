@@ -18,12 +18,26 @@ router.get("/register", (req, res, next) => {
   res.render("register");
 });
 
+router.get("/forgotPassword", (req, res, next) => {
+  res.render("forgotpassword");
+});
+
 router.get("/prices", (req, res, next) => {
   res.render("prices");
 });
 
-router.get("/forgotPassword", (req, res, next) => {
-  res.render("forgotpassword");
+router.get("/purchase", (req, res, next) => {
+  packId = req.query.pack;
+  if (packId === undefined || packId < 1 || packId > 3)
+    packId = 2;
+  
+  res.render("purchase", { packId, user: res.locals.user });
+});
+
+router.get("/service", (req, res, next) => {
+  // TODO: trang quản lý dịch vụ
+  packId = 2;
+  res.render("purchase", { packId, user: res.locals.user });
 });
 
 module.exports = router;

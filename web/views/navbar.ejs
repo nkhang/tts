@@ -16,6 +16,9 @@
                     <li class="dropdown">
                         <a style="color:white;" class="dropdown-toggle">Xin chào <%=user.fullname%></a>
                         <div class="dropdown-content">
+                            <% if(user.purchased){ %>
+                                <a href="/service" style="color:black;">Quản lý dịch vụ</a>
+                            <% } %>
                             <a href="/profile" style="color:black;">Thông tin cá nhân</a>
                             <a href="#" onclick="logout();" style="color:black ">Đăng xuất</a>
                         </div>

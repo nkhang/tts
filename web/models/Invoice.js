@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Create Schema User
-const UserSchema = new Schema({
+// Create Schema Invoice
+const InvoiceSchema = new Schema({
   fullname: {
     type: String,
     required: true
@@ -11,35 +11,35 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  password: {
-    type: String,
-    required: true
-  },
   numberPhone: {
     type: String,
     require: true
-  },
-  tempPassword: {
+  }, 
+  cardName: {
     type: String,
-    default: ""
+    required: true
   },
-  key: {
+  cardNumber: {
     type: String,
-    default: ""
+    required: true
   },
-  purchased: {
-    type: Boolean,
-    default: false
+  expire: {
+    type: Date,
+    require: true
+  },
+  cvv: {
+    type: String,
+    required: true
   },
 
   createAt: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   updateAt: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
 });
 
-module.exports = User = mongoose.model("users", UserSchema);
+module.exports = Invoice = mongoose.model("invoices", InvoiceSchema);

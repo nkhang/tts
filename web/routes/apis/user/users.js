@@ -222,25 +222,33 @@ router.post("/changeInfo", (req, res) => {
     })
   }
 
-  let user = res.locals.user;
-  user.email = req.body.email;
-  user.numberPhone = req.body.numberPhone;
-  user.fullname = req.body.fullname;
-  User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => {
-    if (err) {
-      console.log(err);
+  User.findOne({ email: req.body.email }).then(u => {
+    if (u && u._id !== res.locals.user._id) {
+      return next({
+        status: 400,
+        code: 1010,
+        message: "Email already exists"
+      });
     } else {
-      console.log("Info has been changed");
+      let user = res.locals.user;
+      user.email = req.body.email;
+      user.numberPhone = req.body.numberPhone;
+      user.fullname = req.body.fullname;
+      User.findByIdAndUpdate(user._id, user, { new: true }, (err, doc) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Info has been changed");
 
-      // TODO: cannot change user here !!!
-      res.locals.user.email = user.email;
-      res.locals.user.numberPhone = user.numberPhone;
-      res.locals.user.fullname = user.fullname;
+          // TODO: cannot change user here !!!
+          res.locals.user.email = user.email;
+          res.locals.user.numberPhone = user.numberPhone;
+          res.locals.user.fullname = user.fullname;
+        }
+        return res.redirect("/profile");  
+      });
     }
-    return res.redirect("/profile");
-    
   });
-  
 });
 
 // @route   POST /users/changePassword
