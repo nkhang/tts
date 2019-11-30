@@ -4,12 +4,13 @@ from json import dumps
 from flask_jsonpify import jsonify
 from werkzeug.utils import secure_filename
 import os
+import time
 from gtts import gTTS
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-OUTPUT_FOLDER = '\\outputs\\'
+OUTPUT_FOLDER = os.getcwd() + '/outputs/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
 app = Flask(__name__)
@@ -30,27 +31,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def getDocText(filename):
-    doc = Document(filename)
-    fullText = ""
-    for para in doc.paragraphs:
-        fullText += para.text
-    return fullText
-	
-def textToSpeech(filenameInput, filenameOutput, language, prefixFilename):
-    encoding = 'ansi'
-    if language == "vi":
-        encoding = 'utf8'
-
-    myText = ''
-    if prefixFilename == 'txt':
-        with open(filenameInput, "r",  encoding = encoding) as fh:
-            myText = fh.read().replace("\n", " ")
-        fh.close()
-    elif prefixFilename == 'docx':
-        myText = getDocText(filenameInput).replace('\n',' ')
-    
-    output = gTTS(text = myText, lang = language, slow = False)
+def textToSpeech(content, language, filenameOutput):
+    output = gTTS(text = content, lang = language, slow = False)
     output.save(filenameOutput)
 
 @app.route('/upload', methods = ['POST'])
@@ -66,21 +48,21 @@ def upload_file():
 	language = request.form['language']
 
 	if allowed_file(ffilename):
-		perfix = ffilename.rsplit('.', 1)[1].lower()
 		filename = ffilename.rsplit('.', 1)[0]
 		filenameInput = ffilename
-		filenameOutput = os.getcwd() + OUTPUT_FOLDER + filename + '.mp3'
+		filenameOutput = '{}{}.mp3'.format(OUTPUT_FOLDER, filename)
 		
 		if not os.path.exists(OUTPUT_FOLDER):
 			os.makedirs(OUTPUT_FOLDER)
 			
-		textToSpeech(filenameInput, filenameOutput, language, perfix)
+		textToSpeech(content, language, filenameOutput)
 		
 		if os.path.exists(filenameInput):
 			os.remove(filenameInput)
 		
 		response = cloudinary.uploader.upload(filenameOutput,  folder = "audioTTS/", public_id = filename + ".mp3", overwrite = 'true',  resource_type = "raw")
 		res = {'data': {'file': response, 'filename': filenameInput}, 'error': {}}
+		os.remove(filenameOutput)
 		return jsonify(res)
 	errors = {'data': {}, 'error': {'message': 'conversion failed', 'code': 302}}
 	return jsonify(errors)
