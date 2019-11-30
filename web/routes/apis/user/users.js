@@ -212,13 +212,29 @@ router.post("/forgotpassword", (req, res) => {
 // @route   POST /users/changeInfo
 router.post("/changeInfo", (req, res, next) => {
   let body = req.body;
-  User.findOne({ email: res.locals.user.email }).then(user => {
+  let user = res.locals.user
+  const { errors, isValid } = validateInfoInput(body);
+  if (!isValid) {
+    return next({
+      status: 400,
+      code: errors.code,
+      message: errors.message
+    })
+  }
+  User.findOne({ email: user.email }).then(user => {
     user.fullname = body.fullname;
     user.numberPhone = body.numberPhone;
     user.email = body.email;
     user.save()
     return res.redirect("/profile");
-  });
+  })
+  .catch(err => {
+    return next({
+      status: 500,
+      code: -1,
+      message: 'error finding user'
+    })
+  })
 });
 
 // @route   POST /users/changePassword
@@ -252,15 +268,6 @@ router.post("/", async (req, res) => {
   try {
     var user = new User(req.body);
     var result = await user.save();
-    res.send({ data: result, error: {} });
-  } catch (error) {
-    res.status(500).send({ data: {}, error: error });
-  }
-});
-
-router.get("/", async (req, res) => {
-  try {
-    var result = await User.find().exec();
     res.send({ data: result, error: {} });
   } catch (error) {
     res.status(500).send({ data: {}, error: error });

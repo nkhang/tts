@@ -74,6 +74,6 @@ if not port:
 
 if __name__ == '__main__':
     app.run(
-		host="localhost",
+		# host="localhost",
 		port=port
 	)
