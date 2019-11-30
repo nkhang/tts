@@ -75,7 +75,8 @@ router.post("/uploadText", async (req, res) => {
     let errors = {'data': {}, 'error': {'message': `Error when trying to upload: ${error}`, 'code': 303}}
     res.send(errors)
   }
-  sendData(req.body.content, language, `file${req.body.content.length}.txt`, res)
+  let ts = Date.now()
+  sendData(req.body.content, language, `tts_${ts}_${req.body.content.length}.txt`, res)
 });
 
 function sendData(content, language, filename, res) {
