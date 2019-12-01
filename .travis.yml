@@ -6,6 +6,7 @@ deploy:
       secure: $API_KEY
     app: wordspeech
     on: releases/web
+    
   - provider: heroku
     api_key:
       secure: $API_KEY

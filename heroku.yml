@@ -1,5 +1,5 @@
 build:
     docker:
-        web: web/Dockerfile.web
+        web: tts/Dockerfile.web
 run:
-    web: yarn start
+    web: gunicorn --bind 0.0.0.0:$PORT wsgi

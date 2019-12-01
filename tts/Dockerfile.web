@@ -11,4 +11,4 @@ COPY . .
 RUN adduser -D myuser
 USER myuser
 
-ENTRYPOINT gunicorn --bind 0.0.0.0:$PORT wsgi
+CMD gunicorn --bind 0.0.0.0:$PORT wsgi
