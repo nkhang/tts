@@ -1,7 +1,5 @@
 build:
     docker:
         web: web/Dockerfile.web
-        tts: tts/Dockerfile.tts
 run:
     web: yarn start
-    tts: ./entrypoint.sh

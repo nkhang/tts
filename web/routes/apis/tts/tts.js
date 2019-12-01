@@ -9,8 +9,9 @@ var pdfUtil = require('pdf-to-text');
 let uploads = "uploads";
 let outputs = "outputs";
 let language = "vi";
-let urlUploadFile = "http://tts/upload";
-let urlGetFile = "http://tts/tts";
+let TTS_HOST = 'http://wordspeechapi.herokuapp.com/'
+let urlUploadFile = `${TTS_HOST}upload`;
+let urlGetFile = `${TTS_HOST}tts`;
 
 let diskStorage = multer.diskStorage({
   destination: (req, file, callback) => {
