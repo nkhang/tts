@@ -10,13 +10,13 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-OUTPUT_FOLDER = os.getcwd() + '/outputs/'
+OUTPUT_FOLDER = '/tmp/outputs/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
 app = Flask(__name__)
 api = Api(app)
 cloudinary.config( 
-  cloud_name = "dwhta0afh", 
+  cloud_name = "dwhta0afh",
   api_key = "352529278895127", 
   api_secret = "k_PqUtZjkL_oUM0dY-rBI5Z2FRY" 
 )
@@ -59,7 +59,7 @@ def upload_file():
 		if os.path.exists(filenameInput):
 			os.remove(filenameInput)
 		
-		response = cloudinary.uploader.upload(filenameOutput,  folder = "audioTTS/", public_id = filename + ".mp3", overwrite = 'true',  resource_type = "raw")
+		response = cloudinary.uploader.upload(filenameOutput, folder = "audioTTS/", public_id = filename + ".mp3", overwrite = 'true',  resource_type = "raw")
 		res = {'data': {'file': response, 'filename': filenameInput}, 'error': {}}
 		os.remove(filenameOutput)
 		return jsonify(res)
@@ -68,12 +68,5 @@ def upload_file():
 
 api.add_resource(TTS, '/tts')
 
-port = os.getenv('PORT')
-if not port:
-	port = 5000
-
 if __name__ == '__main__':
-    app.run(
-		# host="localhost",
-		port=port
-	)
+    app.run(host='0.0.0.0')

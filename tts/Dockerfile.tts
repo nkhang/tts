@@ -2,15 +2,13 @@ FROM alpine:latest
 
 WORKDIR /app/
 
-RUN apk --update add python py-pip \
-&& pip install virtualenv \
-&& virtualenv venv \
-&& pip install flask flask-jsonpify flask-sqlalchemy flask-restful gtts cloudinary
+RUN apk --no-cache add python py-pip
+ADD ./requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -q -r /tmp/requirements.txt
 
 COPY . .
 
-RUN chmod +x entrypoint.sh
+RUN adduser -D myuser
+USER myuser
 
-EXPOSE 8080
-
-ENTRYPOINT ./entrypoint.sh
+ENTRYPOINT gunicorn --bind 0.0.0.0:$PORT wsgi
