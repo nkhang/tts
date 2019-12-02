@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manage</title>
+    <link rel='stylesheet' href='/stylesheets/login.css' />
+    <link rel='stylesheet' href='/stylesheets/common.css' />
+    <link rel='stylesheet' , href='/lib/css/vex.css'>
+    <link rel='stylesheet' , href='/lib/css/vex-theme-default.css'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <%- include('navbar') %>
+    </header>
+
+    <div class="container mt-4 mb-5 p-5">
+        <div class="card border-dark p-5 ">
+            <h2 class="d-flex justify-content-center mb-4" style="color:rgb(8, 163, 163)">QUẢN LÝ TOKEN</h2>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label font-weight-bold">Token</label>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-11">
+                            <input type="password" class="form-control" value="123456789">
+                        </div>
+                        <div class="col-1">
+                            <ion-icon name="eye-off" style="font-size: 40px;"></ion-icon>
+                        </div>
+                    </div>
+
+
+                    <a href="#">hướng dẫn sử dụng token</a>
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <label class="col-sm-2 col-form-label font-weight-bold">Ngày hết hạn</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" required="required">
+                </div>
+            </div>
+        </div>
+
+        <div class="container px-lg-5 mb-5 mt-5 ">
+            <div class="row mx-lg-n5 ">
+                <div class="col py-5 px-lg-5 border bg-light mr-5 card border-dark" style="width: 30rem;">
+                    <h3 class="mx-auto">12345</h3>
+                    <h5 class="mx-auto" style="color:rgb(11, 192, 192)">Số ký tự sử dụng</h5>
+                </div>
+                <div class="col py-5 px-lg-5 border bg-light ml-5 card border-dark" style="width: 30rem;">
+                    <h3 class="mx-auto">12345</h3>
+                    <h5 class="mx-auto" style="color:red">Số ký tự còn lại</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card border-dark" style="width: 20rem;">
+                    <div class="card-header d-flex justify-content-center font-weight-bold ">
+                        Gói Normal
+                    </div>
+                    <ul class="list-group list-group-flush p-3">
+                        <li class="list-group-item ">
+                            <div class="d-flex justify-content-center">500.000</div>
+                            <div class="d-flex justify-content-center">VND</div>
+                            <% if(!user){ %>
+                            <a href="/login" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                Đăng nhập</a>
+                            <% } %> <% if(user){ %>
+                            <a href="/purchase?pack=1" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                Mua ngay</a>
+                            <% } %>
+                            <div class="d-flex justify-content-center">500.000 ký tự</div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ 1 giọng nói</li>
+                        <li class="list-group-item d-flex justify-content-center">Không hỗ trợ kỹ thuật</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-dark" style="width: 20rem;">
+                    <div class="card-header d-flex justify-content-center font-weight-bold ">
+                        Gói Super
+                    </div>
+                    <ul class="list-group list-group-flush p-3">
+                        <li class="list-group-item ">
+                            <div class="d-flex justify-content-center">2.000.000</div>
+                            <div class="d-flex justify-content-center">VND</div>
+                            <% if(!user){ %>
+                            <a href="/login" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                Đăng nhập</a>
+                            <% } %> <% if(user){ %>
+                            <a href="/purchase?pack=2" class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">
+                                Mua ngay</a>
+                            <% } %>
+                            <div class="d-flex justify-content-center">4.000.000 ký tự</div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ 2 giọng vùng miền</li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ kỹ thuật 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-dark" style="width: 20rem;">
+                    <div class="card-header d-flex justify-content-center font-weight-bold ">
+                        Gói Ultra
+                    </div>
+                    <ul class="list-group list-group-flush p-3">
+                        <li class="list-group-item ">
+                            <div class="d-flex justify-content-center">4.000.000</div>
+                            <div class="d-flex justify-content-center">VND</div>
+                            <% if(!user){ %>
+                            <a href="/login" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                Đăng nhập</a>
+                            <% } %> <% if(user){ %>
+                            <a href="/purchase?pack=3" class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">
+                                Mua ngay</a>
+                            <% } %>
+                            <div class="d-flex justify-content-center">10.000.000 ký tự</div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ 5 giọng vùng miền</li>
+                        <li class="list-group-item d-flex justify-content-center">Hỗ trợ kỹ thuật 24/7</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('footer.ejs') %>
+</body>
+<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script src="/lib/js/vex.combined.min.js"></script>
+
+</html>
