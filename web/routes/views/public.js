@@ -35,9 +35,28 @@ router.get("/purchase", (req, res, next) => {
 });
 
 router.get("/service", (req, res, next) => {
-  // TODO: trang quản lý dịch vụ
-  packId = 2;
-  res.render("purchase", { packId, user: res.locals.user });
+
+  if (!res.locals.user || !res.locals.user.key)
+    res.render("prices");
+  Service.findOne({key : res.locals.user.key}).then(service => {
+    if (service) {
+      console.log(service);
+      res.render("manage", { service });
+    } else {
+      res.render("prices");
+    }
+  });
+  
+});
+
+router.get("/howToUse", (req, res, next) => {
+  // TODO: điều hướng trang sử dụng ở đây
+  res.render("prices");
+});
+
+
+router.get("/profile", (req, res, next) => {
+  res.render("profile", {user: res.locals.user});
 });
 
 module.exports = router;

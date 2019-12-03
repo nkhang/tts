@@ -15,7 +15,7 @@
     <header>
         <%- include('navbar') %>
     </header>
-
+    <% if(user && service){ %>
     <div class="container mt-4 mb-5 p-5">
         <div class="card border-dark p-5 ">
             <h2 class="d-flex justify-content-center mb-4" style="color:rgb(8, 163, 163)">QUẢN LÝ TOKEN</h2>
@@ -24,24 +24,21 @@
                 <div class="col-sm-10">
                     <div class="row">
                         <div class="col-11">
-                            <input type="password" id="myInput" class="form-control mr-1" value="123456789">
+                            <input type="password" id="myInput" readonly="" class="form-control mr-1" value="<%= service.key%>">
                         </div>
                         <div class="col-1">
                             <button class="btn" style="font-size: 30px 20px 30px 20px;" onclick="myFunction()">
                                 <ion-icon name="eye-off" style="font-size: 30px;"></ion-icon>
                             </button>
-
                         </div>
                     </div>
-
-
-                    <a href="#">hướng dẫn sử dụng token</a>
+                    <a href="/howToUse"><i>Hướng dẫn sử dụng token</i></a>
                 </div>
             </div>
             <div class="form-group row mt-3">
                 <label class="col-sm-2 col-form-label font-weight-bold">Ngày hết hạn</label>
                 <div class="col-sm-10">
-                    <input type="date" class="form-control" required="required">
+                    <input class="form-control" readonly="" value="<%= service.expDate %>">
                 </div>
             </div>
         </div>
@@ -49,11 +46,11 @@
         <div class="container px-lg-5 mb-5 mt-5 ">
             <div class="row mx-lg-n5 ">
                 <div class="col py-5 px-lg-5 border bg-light mr-5 card border-dark" style="width: 30rem;">
-                    <h3 class="mx-auto">12345</h3>
-                    <h5 class="mx-auto" style="color:rgb(11, 192, 192)">Số ký tự sử dụng</h5>
+                    <h3 class="mx-auto"><%= service.numberUse%></h3>
+                    <h5 class="mx-auto" style="color:rgb(11, 192, 192)">Số ký tự đã sử dụng</h5>
                 </div>
                 <div class="col py-5 px-lg-5 border bg-light ml-5 card border-dark" style="width: 30rem;">
-                    <h3 class="mx-auto">12345</h3>
+                    <h3 class="mx-auto"><%= service.numberChar%></h3>
                     <h5 class="mx-auto" style="color:red">Số ký tự còn lại</h5>
                 </div>
             </div>
@@ -73,7 +70,7 @@
                                 Đăng nhập</a>
                             <% } %> <% if(user){ %>
                             <a href="/purchase?pack=1" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
-                                Mua ngay</a>
+                                Gia hạn</a>
                             <% } %>
                             <div class="d-flex justify-content-center">500.000 ký tự</div>
                         </li>
@@ -96,7 +93,7 @@
                                 Đăng nhập</a>
                             <% } %> <% if(user){ %>
                             <a href="/purchase?pack=2" class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">
-                                Mua ngay</a>
+                                Gia hạn</a>
                             <% } %>
                             <div class="d-flex justify-content-center">4.000.000 ký tự</div>
                         </li>
@@ -119,7 +116,7 @@
                                 Đăng nhập</a>
                             <% } %> <% if(user){ %>
                             <a href="/purchase?pack=3" class="btn btn-primary stretched-link  pl-5 pr-5 ml-5 mt-2 mb-2">
-                                Mua ngay</a>
+                                Gia hạn</a>
                             <% } %>
                             <div class="d-flex justify-content-center">10.000.000 ký tự</div>
                         </li>
@@ -130,7 +127,29 @@
             </div>
         </div>
     </div>
-
+    <% } %> <% if(!user){ %>
+        <div class="container login-form">
+            <div class="form">
+                Quay trở lại
+                <a href='/'>Trang chủ</a>
+                ?
+                <br>
+                Hoặc 
+                <a href='/login'>Đăng nhập</a>
+            </div>
+        </div>
+    <% } %> <% if(!service){ %>
+        <div class="container login-form">
+            <div class="form">
+                Quay trở lại
+                <a href='/'>Trang chủ</a>
+                ?
+                <br>
+                Hoặc 
+                <a href='/prices'>Tham khảo các gói API</a>
+            </div>
+        </div>
+    <% } %>
 
     <%- include('footer.ejs') %>
     <script>

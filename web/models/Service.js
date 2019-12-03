@@ -22,6 +22,11 @@ const ServiceSchema = new Schema({
     default: 0,
     min: 0
   },
+  timeUse: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
 
   createAt: {
     type: Date,
@@ -32,6 +37,17 @@ const ServiceSchema = new Schema({
     default: Date.now()
   },
 });
+
+ServiceSchema
+.virtual('expDate')
+.get(function () {
+    let day = this.dueDate.getDate();
+    if (day < 10) day = "0" + day;
+    let mon = this.dueDate.getMonth()+1;
+    if (mon < 10) mon = "0" + mon;
+    return day + '/' + mon + '/' + this.dueDate.getFullYear();
+});
+
 
 ServiceSchema
 .methods.extendDueTime = function (id) {

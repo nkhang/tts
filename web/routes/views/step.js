@@ -56,7 +56,6 @@ router.post("/purchase", (req, res, next) => {
     service.save();
   }
   invoice.save();
-console.log("123");
   let keyString = key.slice(0,5) + '-' + key.slice(5,10) + '-' + key.slice(10);
   var transporter = nodemailer.createTransport({
     service: 'Gmail',

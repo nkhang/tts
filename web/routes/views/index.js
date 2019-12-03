@@ -7,8 +7,4 @@ const authmdw = require('../../middlewares/auth.mdw');
 router.use('/', publicRoutes)
 router.use('/step', authmdw, stepRoutes)
 
-router.get("/profile", (req, res, next) => {
-    res.render("profile", {user: res.locals.user});
-  });
-
 module.exports = router;
