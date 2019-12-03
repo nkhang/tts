@@ -12,6 +12,7 @@ let language = "vi";
 let TTS_HOST = 'http://wordspeechapi.herokuapp.com/'
 let urlUploadFile = `${TTS_HOST}upload`;
 let urlGetFile = `${TTS_HOST}tts`;
+const Service = require("../../../models/Service");
 
 let diskStorage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -46,22 +47,27 @@ router.post("/uploadFile", async (req, res) => {
       let errors = {'data': {}, 'error': {'message': `Error when trying to upload: ${error}`, 'code': 303}}
       return res.send(errors);
     }
-    
+
     let mimetype = req.file.mimetype
     let path = req.file.path
 
     if (mimetype === 'application/pdf') {
-      pdfUtil.info(path, function(error, info) {
+      pdfUtil.info(path, function(error, text) {
         if (error) {
           let errors = {'data': {}, 'error': {'message': `Error when trying to read: ${error}`, 'code': 304}}
           res.send(errors)
         }
-        sendData(info, language, req.file.filename)
+
+        checkKeyTTS(req.headers, text, res, function() {
+          sendData(req.headers, text, language, req.file.filename, res)
+        })
       });
     } else {
       textract.fromFileWithMimeAndPath(mimetype, path, function (error, text) {
         if (error == null) {
-          sendData(text, language, req.file.filename, res)
+          checkKeyTTS(req.headers, text, res, function() {
+            sendData(req.headers, text, language, req.file.filename, res)
+          })
         } else {
           let errors = {'data': {}, 'error': {'message': `Error when trying to read: ${error}`, 'code': 305}}
           res.send(errors)
@@ -75,18 +81,21 @@ router.post("/uploadText", async (req, res) => {
   if (req.body.content.length == 0) {
     let errors = {'data': {}, 'error': {'message': `Error when trying to upload: ${error}`, 'code': 303}}
     res.send(errors)
-  }
-  let ts = Date.now()
-  sendData(req.body.content, language, `tts_${ts}_${req.body.content.length}.txt`, res)
+  } 
+
+  checkKeyTTS(req.headers, req.body.content, res, function() {
+    let ts = Date.now()
+    sendData(req.headers, req.body.content, language, `tts_${ts}_${req.body.content.length}.txt`, res)
+  })
 });
 
-function sendData(content, language, filename, res) {
+function sendData(headers, content, language, filename, res) {
   const options = {
     content : content,
     language: language,
     filename: filename
   }
-  console.log(options)
+  
   request({
     method: 'POST',
     url: urlUploadFile,
@@ -94,11 +103,59 @@ function sendData(content, language, filename, res) {
   }, (error, response, body) => {
     console.log(body, error)
       if (error) {
-        let errors = {'data': {}, 'error': {'message': `Error when translate: ${error}`, 'code': 305}}
+        let errors = {data: {}, error: {message: `Error when translate: ${error}`, code: 305}}
         res.send(errors)
       }
+
+      //update service
+      Service.findOne({ key: headers.key }).then(service => {
+        console.log(service)
+        service.numberUse = service.numberUse + content.length;
+        service.updateAt = Date()
+        console.log("updateAt" ,service.updateAt.toString())
+        service.save()
+      }).catch(err => {
+        console.log(err)
+      })
+
       res.send(body);
   });
+}
+
+function checkKeyTTS(headers, content, res, callback) {
+  if (headers.key == undefined || headers.key == null) {
+    defindErrorCheckKey(306, res)
+  } else {
+    console.log(headers.key)
+    Service.findOne({ key: headers.key }).then(service => {
+      console.log(service)
+      if (service.dueDate != null && service.dueDate < Date()) {
+        console.log("duedate",service.dueDate.toString())
+        console.log("date",Date().toString())
+        defindErrorCheckKey(308, res)
+      } 
+      
+      if (service.numberChar != null && service.numberChar < content.length) {
+        defindErrorCheckKey(309, res)
+      }
+
+      callback()
+    }).catch(err => {
+      defindErrorCheckKey(307, res)
+    })
+  }
+}
+
+function defindErrorCheckKey(code, res) {
+  let message = ""
+    switch (code) {
+      case 306: message = "key undefined"; break;
+      case 307: message = 'key not found'; break;
+      case 308: message = 'your key has expired'; break;
+      case 309: message = 'your server not enough characters, you need to buy more'; break;
+    }
+
+    res.send({ data: {}, error: {message: message, code: code} });
 }
 
 router.get("/hello", (req, res, next) => {
