@@ -107,16 +107,21 @@ function sendData(headers, content, language, filename, res) {
         res.send(errors)
       }
 
-      //update service
-      Service.findOne({ key: headers.key }).then(service => {
-        console.log(service)
-        service.numberUse = service.numberUse + content.length;
-        service.updateAt = Date()
-        console.log("updateAt" ,service.updateAt.toString())
-        service.save()
-      }).catch(err => {
-        console.log(err)
-      })
+      if (headers.key == undefined || headers.key == null) {
+        console.log("-------translate free-----")
+      } else {
+        //update service
+        Service.findOne({ key: headers.key }).then(service => {
+          service.numberUse = service.numberUse + content.length;
+          service.numberChar = service.numberChar - content.length;
+          service.updateAt = Date()
+          console.log(service)
+          console.log("updateAt", service.updateAt.toString())
+          service.save()
+        }).catch(err => {
+          console.log(err)
+        })
+      }
 
       res.send(body);
   });
@@ -129,17 +134,15 @@ function checkKeyTTS(headers, content, res, callback) {
     console.log(headers.key)
     Service.findOne({ key: headers.key }).then(service => {
       console.log(service)
-      if (service.dueDate != null && service.dueDate < Date()) {
-        console.log("duedate",service.dueDate.toString())
-        console.log("date",Date().toString())
-        defindErrorCheckKey(308, res)
-      } 
-      
-      if (service.numberChar != null && service.numberChar < content.length) {
-        defindErrorCheckKey(309, res)
-      }
+      Service.findOne({ key: headers.key, dueDate: { $gte: Date() } }).then(service => {      
+        if (service.numberChar != null && service.numberChar < content.length) {
+          defindErrorCheckKey(309, res)
+        }
 
-      callback()
+        callback()
+      }).catch(err =>{
+        defindErrorCheckKey(308, res)
+      })
     }).catch(err => {
       defindErrorCheckKey(307, res)
     })
@@ -160,6 +163,49 @@ function defindErrorCheckKey(code, res) {
 
 router.get("/hello", (req, res, next) => {
   res.send("hello");
+});
+
+router.post("/uploadFileFree", async (req, res) => {
+
+  uploadFile(req, res, error => {
+    if (error) {
+      let errors = {'data': {}, 'error': {'message': `Error when trying to upload: ${error}`, 'code': 303}}
+      return res.send(errors);
+    }
+
+    let mimetype = req.file.mimetype
+    let path = req.file.path
+
+    if (mimetype === 'application/pdf') {
+      pdfUtil.info(path, function(error, text) {
+        if (error) {
+          let errors = {'data': {}, 'error': {'message': `Error when trying to read: ${error}`, 'code': 304}}
+          res.send(errors)
+        }
+
+        sendData(req.headers, text, language, req.file.filename, res)
+      });
+    } else {
+      textract.fromFileWithMimeAndPath(mimetype, path, function (error, text) {
+        if (error == null) {
+          sendData(req.headers, text, language, req.file.filename, res)
+        } else {
+          let errors = {'data': {}, 'error': {'message': `Error when trying to read: ${error}`, 'code': 305}}
+          res.send(errors)
+        }
+      })
+    }
+  });
+});
+
+router.post("/uploadTextFree", async (req, res) => {
+  if (req.body.content.length == 0) {
+    let errors = {'data': {}, 'error': {'message': `Error when trying to upload: ${error}`, 'code': 303}}
+    res.send(errors)
+  } 
+
+  let ts = Date.now()
+  sendData(req.headers, req.body.content, language, `tts_${ts}_${req.body.content.length}.txt`, res)
 });
 
 module.exports = router;

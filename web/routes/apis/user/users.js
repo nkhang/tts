@@ -281,7 +281,8 @@ router.get("/me", (req, res, next) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    var user = await User.findById(req.params.id).exec();
+    var result = await User.findById(req.params.id).exec();
+    console.log(result)
     res.send({ data: result, error: {} });
   } catch (error) {
     res.status(500).send({ data: {}, error: error });
