@@ -126,7 +126,7 @@
         data: object,
         processData: false,
         contentType: false,
-        url: '/api/tts/uploadFile',
+        url: '/api/tts/uploadFileFree',
         success: function (msg) {
           $('#audio').attr('src', msg.data.file.secure_url);
           document.getElementById('audio').play();
@@ -137,7 +137,7 @@
       var object = {};
       object.content = $('#text').val();
       $.ajax({
-        url: '/api/tts/uploadText',
+        url: '/api/tts/uploadTextFree',
         type: 'post',
         data: JSON.stringify(object),
         contentType: 'application/json',
