@@ -51,15 +51,19 @@ ServiceSchema
 
 ServiceSchema
 .methods.extendDueTime = function (id) {
+  this.updateAt = new Date();
+
   if (id == 1) {
     this.numberChar = this.numberChar + 500000;  
   } else if (id == 2) {
     this.numberChar = this.numberChar + 4000000;
   } else if (id == 3) {
     this.numberChar = this.numberChar + 10000000;
+  } else if (id == 0) { // Free pack
+    return this;
   }
-  this.dueDate = new Date(+this.dueDate + 864e5 * 30);
-  this.updateAt = new Date();
+  if (this.dueDate > new Date()) this.dueDate = new Date(+this.dueDate + 864e5 * 30);
+  else this.dueDate = new Date(+new Date() + 864e5 * 30);
   return this;
 };
 
@@ -72,6 +76,9 @@ ServiceSchema
     sampleService.numberChar = 4000000;
   } else if (id == 3) {
     sampleService.numberChar = 10000000;
+  } else if (id == 0) { // Free pack
+    sampleService.numberChar = 200000;
+    sampleService.dueDate = new Date(+new Date() + 864e5 * 15);
   }
   return sampleService;
 };

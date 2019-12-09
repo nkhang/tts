@@ -36,7 +36,7 @@ router.get("/purchase", (req, res, next) => {
 
 router.get("/service", (req, res, next) => {
 
-  if (!res.locals.user || !res.locals.user.key)
+  if (!res.locals.user || !res.locals.user.purchased || !res.locals.user.key)
     res.render("prices");
   Service.findOne({key : res.locals.user.key}).then(service => {
     if (service) {

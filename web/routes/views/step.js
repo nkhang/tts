@@ -52,9 +52,15 @@ router.post("/purchase", (req, res, next) => {
     key = (res.locals.user._id).toString().substr(0, 15);
     let service = Service.getSampleService(req.body.package);
     service.key = key;
-    
-    service.save();
+    if (res.locals.user.key) {
+      Service.findOneAndDelete({ key: key }).then(p => {
+        service.save(); 
+      }).catch(err => console.log(err));
+    } else {
+      service.save();
+    }
   }
+  console.log(key);
   invoice.save();
   let keyString = key.slice(0,5) + '-' + key.slice(5,10) + '-' + key.slice(10);
   var transporter = nodemailer.createTransport({
@@ -116,6 +122,65 @@ router.post("/purchase", (req, res, next) => {
 
 });
 
+router.get("/activateFree", (req, res, next) => {
+  if (!res.locals.user || res.locals.user.purchased) {
+    return res.redirect("/prices");
+  }
+  
+  key = (res.locals.user._id).toString().substr(0, 15);
+  let service = Service.getSampleService(0);
+  service.key = key;
+  service.save();
+  console.log(key);
+  let keyString = key.slice(0,5) + '-' + key.slice(5,10) + '-' + key.slice(10);
+  var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: true,
+    auth: {
+      user: 'ttsgroup4@gmail.com',
+      pass: 'texttospeech'
+    }
+  });
+  let mail = {
+      from: 'ttsgroup4@gmail.com',
+      to: res.locals.user.email,
+      subject: 'Cảm ơn bạn đã đăng ký dùng thử dịch vụ',
+      html: '<p>Xin chào ' + res.locals.user.fullname + '</p>'
+        + '<p>Cảm ơn bạn đã đăng ký dùng thử dịch vụ của TEXT TO SPEECH chúng tôi. Đây là key dùng để truy cập API: </p>'
+        + '<p><b>' + keyString + '</b></p>'
+        + '<p>Để quản lý dịch vụ cũng như tìm hiểu cách sử dụng, xin vui lòng truy cập trang web của chúng tôi.</p>'
+        + '<br>'
+        + '<p>Trân trọng</p>'
+        + '<p>TTS</p>'
+  };
+
+  let user = res.locals.user;
+  User.findOne({ email: user.email }).then(user => {
+    user.key = key;
+    user.save();
+  }).catch(err => {
+    return next({
+      status: 500,
+      code: -1,
+      message: 'error finding user'
+    });
+  });
+
+  transporter.sendMail(mail, function (error, info) {
+    if (error) {
+      console.log("Sending mail error: " + error);
+      errors.message = "Sending mail fails !";
+      errors.code = 1010;
+
+      return res.redirect("/prices");
+    } else {
+      return res.redirect("/howToUse");
+    }
+  });
+
+});
 
 router.get("/information", (req, res, next) => {
     var service = req.query.service
