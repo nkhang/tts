@@ -99,9 +99,14 @@
                             <li class="list-group-item ">
                                 <div class="d-flex justify-content-center">FREE</div>
                                 <div class="d-flex justify-content-center">15 ngày</div>
-                                <a href="/step/activateFree" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
+                                <a href="/step/activateFree" onclick="notify()" class="btn btn-primary stretched-link pl-5 pr-5 ml-5 mt-2 mb-2">
                                         Kích hoạt</a>
                                 <div class="d-flex justify-content-center">200.000 ký tự</div>
+                                <script>
+                                    function notify() {
+                                      window.alert("Tài khoản của bạn đã được kích hoạt. Xin vui lòng mở email của bạn để nhận được key kết nối API. Bạn sẽ được điều hướng đến trang hướng dẫn sử dụng!");
+                                    }
+                                </script>
                             </li>
                             <li class="list-group-item d-flex justify-content-center">Không hỗ trợ trang quản lý</li>
                             <li class="list-group-item d-flex justify-content-center">Không hỗ trợ kỹ thuật</li>
