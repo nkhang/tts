@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+a, button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    background-color: #3399cc;
+}
+
+.logo {
+    cursor: pointer;
+    order: 3;
+    margin-left: auto;
+}
+
+nav {
+    order: 1;
+}
+
+.nav__links {
+    list-style: none;
+}
+
+.nav__links li {
+    display: inline-block;
+    padding: 10px 10px 20px 10px;
+}
+
+.nav__links li:nth-child(1) {
+    padding: 0 20px 0 0;
+}
+
+.nav__links li a {
+    transition: all 0.3s ease 0s;
+}
+
+.cta {
+    order: 2;
+}
+textarea
+{
+    border:1px solid #999999;
+    width:98%;
+    margin:5px 0;
+    padding:1%;
+}
+
+.file{
+    border: 1px dotted black;
+    background-color: white;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    height: 75px;
+    width: 100%;
+}
+
+.col-25 {
+    -ms-flex: 25%; /* IE10 */
+    flex: 25%;
+  }
+
+.col-50 {
+    -ms-flex: 50%; /* IE10 */
+    flex: 50%;
+  }
+
+.col-75 {
+    -ms-flex: 75%; /* IE10 */
+    flex: 75%;
+  }
+
+.col-25,
+.col-50,
+.col-75 {
+    padding: 0 16px;
+  }
+
+input[type=text], input[type=email], input[type=number], select {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+label {
+    margin-bottom: 10px;
+    display: block;
+  }
+
+.icon-container {
+    margin-bottom: 20px;
+    padding: 7px 0;
+    font-size: 24px;
+  }
+
+span.price {
+    float: right;
+    color: grey;
+  }
+
+.fa-gift, .fa-phone-square{
+    font-size: 18px;
+  }
