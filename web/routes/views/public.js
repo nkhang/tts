@@ -50,8 +50,7 @@ router.get("/service", (req, res, next) => {
 });
 
 router.get("/howToUse", (req, res, next) => {
-  // TODO: điều hướng trang sử dụng ở đây
-  res.render("prices");
+  res.render("tutorial");
 });
 
 
