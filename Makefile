@@ -1,2 +1,2 @@
 test:
-	echo "Hello tests"
+	echo "no test added"
