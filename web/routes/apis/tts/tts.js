@@ -17,7 +17,7 @@ const Service = require("../../../models/Service");
 
 let diskStorage = multer.diskStorage({
   destination: (req, file, callback) => {
-    let dir = __dirname.slice(0, __dirname.lastIndexOf("\\"));
+    let dir = __dirname.slice(0, __dirname.lastIndexOf("/"));
     let folderUpload = path.join(`${dir}/${uploads}`);
     callback(null, folderUpload);
   },

@@ -31,17 +31,23 @@
                 API uploadText bạn cần truyền <code>Content-Type</code> là <code>application/json</code> ở phần
                 <code>headers</code> và content (nội dung text bạn muốn chuyển thành speech) ở <code>body</code>.
             </p>
-            <em><strong>HOST</strong>: <code>http://wordspeech.herokuapp.com/api/users/uploadText</code></em>
+            <em><strong>HOST</strong>: <code>http://wordspeech.herokuapp.com/api/tts/uploadText</code></em>
             <p>
-                Ví dụ một request:
+                Ví dụ một request với <code>cURL</code>:
             </p>
-            <script src="https://gist.github.com/nkhang/b7c5f76dea6a721441e52b88742ce6b3.js"></script>
+            <script src="https://gist.github.com/nkhang/bee4816c4157957d84e5168506359e02.js"></script>
+            <p>Hoặc NodeJS</p>
+            <script src="https://gist.github.com/nkhang/a5da1f6391fb5650f4724ea51618d6e3.js"></script>
             <p>
                 API uploadFile bạn cần truyền 1 file (file chứa nội dung text bạn muốn chuyển thành âm thanh) ở body
-                <code>http://wordspeech.herokuapp.com/api/users/uploadFile</code>
+                <code>http://wordspeech.herokuapp.com/api/tts/uploadFile</code>
             </p>
-            <script src="https://gist.github.com/nkhang/0fbd90dbcfd60c00140b888e0eefec45.js"></script>
-            
+            <p>
+                Ví dụ với cURL (path của file: <code>/sample.txt</code>):
+            </p>
+            <script src="https://gist.github.com/nkhang/08da8c132c2927045f4a8079251872ec.js"></script>
+            <p>Ví dụ với NodeJS</p>
+            <script src="https://gist.github.com/nkhang/ac1651faabc3bb07f920ee31ad2a212d.js"></script>
         </div>
     </div>
 
