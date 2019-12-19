@@ -10,6 +10,7 @@ let uploads = "uploads";
 let outputs = "outputs";
 let language = "vi";
 let TTS_HOST = process.env.TTS_HOST
+console.log(`Text to speech core host: ${TTS_HOST}`);
 let urlUploadFile = `${TTS_HOST}upload`;
 let urlGetFile = `${TTS_HOST}tts`;
 const Service = require("../../../models/Service");

@@ -1,7 +1,7 @@
 FROM node:slim
 
 ENV NODE_ENV=production 
-ENV TTS_HOST=http://wordspeechapi.herokuapp.com/
+
 WORKDIR /app/web/
 
 ADD package.json .
