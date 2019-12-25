@@ -23,3 +23,5 @@ cd web/
 yarn install    #install dependencies
 yarn start      # start using nodemon
 ```
+
+- Feel free to contact me!
