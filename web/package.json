@@ -28,6 +28,6 @@
     "request": "^2.88.0",
     "textract": "^2.5.0",
     "uuid": "^3.3.3",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   }
 }
